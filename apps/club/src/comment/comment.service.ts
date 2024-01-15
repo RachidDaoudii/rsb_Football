@@ -1,26 +1,42 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
+import { CommentRepository } from './comment.repository';
 
 @Injectable()
 export class CommentService {
+  constructor(private readonly commentRepository: CommentRepository) {}
+
   create(createCommentDto: CreateCommentDto) {
-    return 'This action adds a new comment';
+    // if (createCommentDto._id) {
+    //   const comment = this.findOne(createCommentDto._id);
+    //   if (comment) {
+    //     // createCommentDto.replies.push(createCommentDto._id);
+    //   }
+    // }
+    return this.commentRepository.create({
+      ...createCommentDto,
+      timestamp: new Date(),
+      replies: createCommentDto.replies
+    });
   }
 
   findAll() {
-    return `This action returns all comment`;
+    return this.commentRepository.find({});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} comment`;
+  findOne(_id: string) {
+    return this.commentRepository.findOne({ _id });
   }
 
-  update(id: number, updateCommentDto: UpdateCommentDto) {
-    return `This action updates a #${id} comment`;
+  update(_id: string, updateCommentDto: UpdateCommentDto) {
+    return this.commentRepository.findOneAndUpdate(
+      { _id },
+      { $set: updateCommentDto },
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} comment`;
+  remove(_id: string) {
+    return this.commentRepository.findOneAndDelete({ _id });
   }
 }
