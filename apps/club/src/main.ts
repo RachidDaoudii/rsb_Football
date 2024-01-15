@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { ClubModule } from './club.module';
+import { ClubModule } from './club/club.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(ClubModule);
