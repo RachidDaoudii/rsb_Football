@@ -52,6 +52,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/marketplace/tsconfig.app.json"
       }
+    },
+    "blog": {
+      "type": "application",
+      "root": "apps/blog",
+      "entryFile": "main",
+      "sourceRoot": "apps/blog/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/blog/tsconfig.app.json"
+      }
     }
   },
   "monorepo": true,

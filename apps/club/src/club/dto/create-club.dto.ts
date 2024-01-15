@@ -1,16 +1,16 @@
-import { Prop } from '@nestjs/mongoose';
+import { IsNotEmpty } from 'class-validator';
 
 export class CreateClubDto {
-  @Prop()
+  @IsNotEmpty()
   name: string;
-  @Prop()
+  @IsNotEmpty()
   logo: string;
-  @Prop()
+  @IsNotEmpty()
   phone: string;
-  @Prop()
+  @IsNotEmpty()
   address: string;
-  @Prop()
+  @IsNotEmpty()
   city: string;
-  @Prop()
+  @IsNotEmpty()
   userId: string;
 }

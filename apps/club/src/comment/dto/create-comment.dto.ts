@@ -1,24 +1,16 @@
-import { Prop } from '@nestjs/mongoose';
+import { IsNotEmpty } from 'class-validator';
 
 export class CreateCommentDto {
-  @Prop()
+  @IsNotEmpty()
   _id: string;
-  @Prop()
+  @IsNotEmpty()
   content: string;
-  @Prop()
+  @IsNotEmpty()
   userId: string;
-  @Prop()
+  @IsNotEmpty()
   blogId: string;
 
-  @Prop({
-    type: [Array],
-    default: [
-      {
-        content: String,
-        userId: String,
-      },
-    ],
-  })
+  @IsNotEmpty()
   replies: [
     {
       content: string;
