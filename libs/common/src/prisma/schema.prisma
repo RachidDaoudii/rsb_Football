@@ -1,0 +1,138 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  name     String?
+  role     String   @default("user")
+  club Club[]
+  team Team[]
+  player Player[]
+  categoryPlayer CategoryPlayer[]
+  match Match[]
+  Lineup Lineup[]
+  roles Role[]
+  permissions Permission[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Role{
+  id     Int     @id @default(autoincrement())
+  name   String
+  userId Int
+  user   User    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Permission{
+  id     Int     @id @default(autoincrement())
+  name   String
+  userId Int
+  user   User    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Club {
+  id     Int     @id @default(autoincrement())
+  name   String
+  description String
+  logo   String
+  userId Int
+  user   User    @relation(fields: [userId], references: [id])
+  teams  Team[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+}
+
+model Team {
+  id     Int     @id @default(autoincrement())
+  name   String
+  club   Club    @relation(fields: [clubId], references: [id])
+  clubId Int
+  userId Int
+  user   User    @relation(fields: [userId], references: [id])
+  players Player[]
+  matchs  Match[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model CategoryPlayer{
+  id     Int     @id @default(autoincrement())
+  name   String
+  userId Int
+  user   User    @relation(fields: [userId], references: [id])
+  players Player[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Player {
+  id     Int     @id @default(autoincrement())
+  name   String
+  description String
+  number Int
+  numberMatch Int
+  numberBut Int
+  numberAssist Int
+  numberYellowCard Int
+  numberRedCard Int
+  team   Team    @relation(fields: [teamId], references: [id])
+  teamId Int
+  categoryPlayer CategoryPlayer @relation(fields: [categoryPlayerId], references: [id])
+  categoryPlayerId Int
+  userId Int
+  user   User    @relation(fields: [userId], references: [id])
+  Lineup Lineup[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Match {
+  id     Int     @id @default(autoincrement())
+  date   DateTime
+  team1   Team    @relation(fields: [team1Id], references: [id])
+  team1Id Int
+  scoreTeam1 Int
+  scoreTeam2 Int
+  userId Int
+  user   User    @relation(fields: [userId], references: [id])
+  Lineup Lineup[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Lineup{
+  id     Int     @id @default(autoincrement())
+  player Player @relation(fields: [playerId], references: [id])
+  playerId Int
+  match  Match  @relation(fields: [matchId], references: [id])
+  matchId Int
+  position String
+  number Int
+  isCaptain Boolean
+  isGoalkeeper Boolean
+  isSubstitute Boolean
+  isSubstituteIn Boolean
+  isSubstituteOut Boolean
+  isSubstituteBench Boolean
+  userId Int
+  user   User    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
