@@ -20,8 +20,8 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
       }
       return (await createDocument.save()).toJSON() as unknown as TDocument;
     } catch (error) {
-      this.logger.error(error);
-      throw error;
+      this.logger.error(error.message);
+      return error.message;
     }
   }
 
@@ -113,4 +113,5 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
       throw error;
     }
   }
+
 }
