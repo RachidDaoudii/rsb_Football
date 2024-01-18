@@ -8,31 +8,35 @@ export class ClubService {
   constructor(private readonly clubRepository: ClubRepository) {}
   async create(createClubDto: CreateClubDto) {
     try {
-      return await this.clubRepository.create({
+      const club = await this.clubRepository.create({
         ...createClubDto,
-        timestamp: new Date(),
       });
+
+      return club;
     } catch (error) {
       return error.message;
     }
   }
 
   async findAll() {
-    return await this.clubRepository.find({});
+    const club = await this.clubRepository.findMany();
+    if (club.length === 0) {
+      return false;
+    }
   }
 
-  async findOne(_id: string) {
-    return await this.clubRepository.findOne({ _id });
+  async findOne(_id: Number) {
+    return await this.clubRepository.findOne(parseInt(_id.toString()));
   }
 
-  async update(_id: string, updateClubDto: UpdateClubDto) {
+  async update(_id: Number, updateClubDto: UpdateClubDto) {
     return await this.clubRepository.findOneAndUpdate(
-      { _id },
-      { $set: updateClubDto },
+      parseInt(_id.toString()),
+      updateClubDto,
     );
   }
 
-  async remove(_id: string) {
-    return await this.clubRepository.findOneAndDelete({ _id });
+  async remove(_id: Number) {
+    return await this.clubRepository.findOneAndDelete(parseInt(_id.toString()));
   }
 }

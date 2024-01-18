@@ -6,11 +6,15 @@ export class CreateClubDto {
   @IsNotEmpty()
   logo: string;
   @IsNotEmpty()
+  email: string;
+  @IsNotEmpty()
   phone: string;
   @IsNotEmpty()
   address: string;
   @IsNotEmpty()
   city: string;
+  // @IsNotEmpty()
+  // userId: string;
   @IsNotEmpty()
-  userId: string;
+  description: String;
 }
