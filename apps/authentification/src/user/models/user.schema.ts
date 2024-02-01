@@ -24,7 +24,9 @@ export class UserDocument extends AbstractDocument {
   status: string;
   @Prop()
   avatar: string;
-  @Prop()
+  @Prop({
+    default: false,
+  })
   emailVerified: boolean;
   timestamp: Date;
 }

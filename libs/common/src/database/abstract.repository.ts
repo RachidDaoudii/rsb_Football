@@ -31,14 +31,6 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
         .findOne(filterQuery)
         .lean<TDocument>(true);
 
-      if (!document) {
-        // this.logger.warn(
-        //   `Document not found in ${this.model.modelName} collection`,
-        // );
-        return {
-          message: `Document not found in ${this.model.modelName} collection`,
-        } as unknown as TDocument;
-      }
       return document;
     } catch (error) {
       this.logger.error(error);
@@ -52,7 +44,7 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
   ): Promise<TDocument> {
     try {
       const document = await this.model
-        .findByIdAndUpdate(filterQuery, update, {
+        .findOneAndUpdate(filterQuery, update, {
           new: true,
         })
         .lean<TDocument>(true);
@@ -113,5 +105,4 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument> {
       throw error;
     }
   }
-
 }
