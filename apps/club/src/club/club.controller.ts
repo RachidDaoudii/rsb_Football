@@ -7,19 +7,18 @@ import {
   Param,
   Delete,
   Res,
-  Response,
   HttpStatus,
 } from '@nestjs/common';
 import { ClubService } from './club.service';
 import { CreateClubDto } from './dto/create-club.dto';
 import { UpdateClubDto } from './dto/update-club.dto';
-
+import { Response } from 'express';
 @Controller('club')
 export class ClubController {
   constructor(private readonly clubService: ClubService) {}
 
   @Post()
-  async create(@Res() res: Response, @Body() createClubDto: CreateClubDto) {
+  async create(@Body() createClubDto: CreateClubDto, @Res() res: Response) {
     const club = await this.clubService.create(createClubDto);
     if (club) {
       return res.status(HttpStatus.CREATED).json({
