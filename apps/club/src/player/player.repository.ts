@@ -1,9 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { PrismaService } from '@app/common';
+import { PrismaServiceClub } from '@app/common';
 
 @Injectable()
 export class PlayerRepository {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaServiceClub) {}
 
   async create(player: any) {
     try {
@@ -68,13 +68,19 @@ export class PlayerRepository {
 
   async get(include: object) {
     try {
-      const res = await this.prismaService.player.findMany({
-        include: {
-          ...include,
-        },
-      });
+      try {
+        const res = await this.prismaService.player.findMany({
+          include: {
+            ...include,
+          },
+        });
 
-      return res;
+        return res;
+      } catch (error) {
+        return {
+          error: 'An error occurred while fetching player data.',
+        };
+      }
     } catch (error) {
       return {
         error: 'An error occurred while fetching player data.',

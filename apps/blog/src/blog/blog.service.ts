@@ -15,7 +15,8 @@ export class BlogService {
   }
 
   findAll() {
-    return this.blogRepository.find({});
+    // return this.blogRepository.find({});
+    return this.blogRepository.findtest();
   }
 
   findOne(_id: string) {

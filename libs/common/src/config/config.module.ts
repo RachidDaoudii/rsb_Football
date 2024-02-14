@@ -10,6 +10,11 @@ import * as Joi from 'joi';
     NestConfigModule.forRoot({
       validationSchema: Joi.object({
         MONGODB_URI: Joi.string().required(),
+        DATABASE_URL_Auth: Joi.string().required(),
+        DATABASE_URL_BLOG: Joi.string().required(),
+        DATABASE_URL_CLUB: Joi.string().required(),
+        DATABASE_URL_MARKETPLACE: Joi.string().required(),
+        DATABASE_URL_RESERVATION: Joi.string().required(),
       }),
     }),
   ],

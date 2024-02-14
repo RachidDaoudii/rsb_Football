@@ -14,7 +14,7 @@ export class CreateBlogDto {
   @IsNotEmpty()
   tags: string[];
   @IsNotEmpty()
-  userId: string;
+  user: string;
   @IsNotEmpty()
   clubId: string;
 }

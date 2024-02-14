@@ -14,29 +14,29 @@ export class CommentService {
     //     // createCommentDto.replies.push(createCommentDto._id);
     //   }
     // }
-    return this.commentRepository.create({
-      ...createCommentDto,
-      timestamp: new Date(),
-      replies: createCommentDto.replies
-    });
+    // return this.commentRepository.create({
+    //   ...createCommentDto,
+    //   timestamp: new Date(),
+    //   replies: createCommentDto.replies
+    // });
   }
 
   findAll() {
-    return this.commentRepository.find({});
+    // return this.commentRepository.find({});
   }
 
   findOne(_id: string) {
-    return this.commentRepository.findOne({ _id });
+    // return this.commentRepository.findOne({ _id });
   }
 
   update(_id: string, updateCommentDto: UpdateCommentDto) {
-    return this.commentRepository.findOneAndUpdate(
-      { _id },
-      { $set: updateCommentDto },
-    );
+    // return this.commentRepository.findOneAndUpdate(
+    //   { _id },
+    //   { $set: updateCommentDto },
+    // );
   }
 
   remove(_id: string) {
-    return this.commentRepository.findOneAndDelete({ _id });
+    // return this.commentRepository.findOneAndDelete({ _id });
   }
 }

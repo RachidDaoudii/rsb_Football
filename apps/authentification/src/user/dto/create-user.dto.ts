@@ -16,7 +16,7 @@ export class CreateUserDto {
 
   country: string;
 
-  phoneNumber: string;
+  phone: string;
 
   role: string;
 

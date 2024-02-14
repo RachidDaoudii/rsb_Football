@@ -11,4 +11,8 @@ export class BlogRepository extends AbstractRepository<BlogDocument> {
   constructor(@InjectModel(BlogDocument.name) clubModel: Model<BlogDocument>) {
     super(clubModel);
   }
+
+  async findtest() {
+    return await this.model.find().populate('users').exec();
+  }
 }

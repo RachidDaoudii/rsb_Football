@@ -14,7 +14,7 @@ export class User {
   urlClub: string;
   city: string;
   country: string;
-  phoneNumber: string;
+  phone: string;
   role: string;
   status: string;
   avatar: string;

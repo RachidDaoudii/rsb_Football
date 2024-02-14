@@ -21,15 +21,15 @@ export class UserService {
       createUserDto.password,
     );
 
-    const user = await this.userRepository.findOne({
-      email: createUserDto.email,
-    });
+    // const user = await this.userRepository.findOne({
+    //   email: createUserDto.email,
+    // });
 
-    if (user) {
-      return {
-        message: 'User already exists',
-      };
-    }
+    // if (user) {
+    //   return {
+    //     message: 'User already exists',
+    //   };
+    // }
 
     const token = await this.serviceJwt.sign(
       {
@@ -52,64 +52,57 @@ export class UserService {
         <p>Click <a href="http://localhost:3005/auth/verify-email/${createUserDto.email}/${token}">here</a> to verify your email</p>`,
     });
 
-    return this.userRepository.create({
-      ...createUserDto,
-      timestamp: new Date(),
-    });
+    // return this.userRepository.create({
+    //   ...createUserDto,
+    //   timestamp: new Date(),
+    // });
   }
 
   async login(loginUserDto: LoginUserDto) {
-    const user = await this.userRepository.findOne({
-      email: loginUserDto.email,
-    });
-
-    if (!user) {
-      return {
-        message: 'User not found',
-      };
-    }
-
-    const isMatch = await this.bcryptservice.compare(
-      loginUserDto.password,
-      user.password,
-    );
-
-    if (!isMatch) {
-      return {
-        message: 'Incorrect password',
-      };
-    }
-
-    const payload = {
-      id: user._id,
-      username: user.firstName + ' ' + user.lastName,
-      email: user.email,
-    };
-
-    const token = await this.serviceJwt.sign(payload, {
-      secret: process.env.SECREtKEYJWT,
-      expiresIn: '2day',
-    });
-
-    if (!user.emailVerified) {
-      await this.emailService.sendMail({
-        to: 'recipient@example.com',
-        subject: 'Verify Email',
-        text: 'This is for verify email',
-        html: `
-          <h1>Verify Email</h1>
-          <p>Click <a href="http://localhost:3005/auth/verify-email/${user.email}/${token}">here</a> to verify your email</p>`,
-      });
-      return {
-        message: 'User not verified check your email',
-      };
-    }
-
-    return {
-      message: 'User logged in successfully',
-      access_token: token,
-      info: payload,
-    };
+    // const user = await this.userRepository.findOne({
+    //   email: loginUserDto.email,
+    // });
+    // if (!user) {
+    //   return {
+    //     message: 'User not found',
+    //   };
+    // }
+    // const isMatch = await this.bcryptservice.compare(
+    //   loginUserDto.password,
+    //   user.password,
+    // );
+    // if (!isMatch) {
+    //   return {
+    //     message: 'Incorrect password',
+    //   };
+    // }
+    // const payload = {
+    //   id: user._id,
+    //   username: user.firstName + ' ' + user.lastName,
+    //   email: user.email,
+    // };
+    // const token = await this.serviceJwt.sign(payload, {
+    //   secret: process.env.SECREtKEYJWT,
+    //   expiresIn: '2day',
+    // });
+    // if (!user.emailVerified) {
+    //   await this.emailService.sendMail({
+    //     to: 'recipient@example.com',
+    //     subject: 'Verify Email',
+    //     text: 'This is for verify email',
+    //     html: `
+    //       <h1>Verify Email</h1>
+    //       <p>Click <a href="http://localhost:3005/auth/verify-email/${user.email}/${token}">here</a> to verify your email</p>`,
+    //   });
+    //   return {
+    //     message: 'User not verified check your email',
+    //   };
+    // }
+    // return {
+    //   message: 'User logged in successfully',
+    //   access_token: token,
+    //   info: payload,
+    // };
   }
 
   findAll() {
@@ -129,13 +122,13 @@ export class UserService {
   }
 
   async verifyEmail(email: string, token: string) {
-    const user = await this.userRepository.findOne({ email: email });
+    // const user = await this.userRepository.findOne({ email: email });
 
-    if (!user) {
-      return {
-        message: 'User not found',
-      };
-    }
+    // if (!user) {
+    //   return {
+    //     message: 'User not found',
+    //   };
+    // }
 
     const payload = await this.serviceJwt.verify(token, {
       secret: process.env.SECREtKEYJWT,
@@ -147,10 +140,10 @@ export class UserService {
       };
     }
 
-    await this.userRepository.findOneAndUpdate(
-      { email: email },
-      { emailVerified: true },
-    );
+    // await this.userRepository.findOneAndUpdate(
+    //   { email: email },
+    //   { emailVerified: true },
+    // );
 
     return {
       message: 'Email verified',
@@ -158,13 +151,11 @@ export class UserService {
   }
 
   async forgotPassword(email: string) {
-    const user = await this.userRepository.findOne({ email: email });
+    // const user = await this.userRepository.findOne({ email: email });
 
-    if (!user) {
-      return {
-        message: 'User not found',
-      };
-    }
+    // if (!user) {
+    //   return false;
+    // }
 
     const token = await this.serviceJwt.sign(
       {
