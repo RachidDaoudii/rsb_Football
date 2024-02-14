@@ -1,0 +1,183 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL_CLUB")
+}
+
+model User {
+  id       String @id @default(uuid())
+  email    String   @unique
+  fullname     String?
+  role     String   @default("user")
+  club Club[]
+  team Team[]
+  player Player[]
+  categoryPlayer CategoryPlayer[]
+  match Match[]
+  Lineup Lineup[]
+  roles Role[]
+  permissions Permission[]
+  sponsor Sponsor[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isdeleted Boolean @default(false)
+}
+
+model Role{
+  id       String @id @default(uuid())
+  name   String
+  userId String
+  user   User    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isdeleted Boolean @default(false)
+}
+
+model Permission{
+  id       String @id @default(uuid())
+  name   String
+  userId String
+  user   User    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isdeleted Boolean @default(false)
+}
+
+model Club {
+  id       String @id @default(uuid())
+  name   String
+  description String
+  logo   String
+  phone String
+  email String
+  address String
+  city String
+  userId String
+  user   User    @relation(fields: [userId], references: [id])
+  teams  Team[]
+  sponsor Sponsor[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isdeleted Boolean @default(false)
+}
+
+model Team {
+  id       String @id @default(uuid())
+  name   String
+  club   Club    @relation(fields: [clubId], references: [id])
+  clubId String
+  userId String
+  user   User    @relation(fields: [userId], references: [id])
+  players Player[]
+  matchs  Match[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isdeleted Boolean @default(false)
+}
+  
+model CategoryPlayer{
+  id       String @id @default(uuid())
+  name   String
+  userId String
+  user   User    @relation(fields: [userId], references: [id])
+  players Player[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isdeleted Boolean @default(false)
+}
+
+enum Position {
+  Null
+  GK
+  LB
+  CB
+  RB
+  LWR
+  RWR
+  DM
+  LM
+  CM
+  RM
+  LW
+  RW
+  AM
+  ST
+  CF
+}
+
+model Player {
+  id       String @id @default(uuid())
+  name   String
+  description String
+  number Int
+  numberMatch Int
+  numberBut Int
+  numberAssist Int
+  numberYellowCard Int
+  numberRedCard Int
+  team   Team    @relation(fields: [teamId], references: [id])
+  teamId String
+  categoryPlayer CategoryPlayer @relation(fields: [categoryPlayerId], references: [id])
+  categoryPlayerId String
+  position Position
+  userId String
+  user   User    @relation(fields: [userId], references: [id])
+  Lineup Lineup[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isdeleted Boolean @default(false)
+}
+
+model Match {
+  id       String @id @default(uuid())
+  date   DateTime
+  team1   Team    @relation(fields: [team1Id], references: [id])
+  team1Id String
+  scoreTeam1 Int
+  scoreTeam2 Int
+  userId String
+  user   User    @relation(fields: [userId], references: [id])
+  Lineup Lineup[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isdeleted Boolean @default(false)
+}
+
+model Lineup{
+  id       String @id @default(uuid())
+  player Player @relation(fields: [playerId], references: [id])
+  playerId String
+  match  Match  @relation(fields: [matchId], references: [id])
+  matchId String
+  position String
+  number Int
+  isCaptain Boolean
+  isGoalkeeper Boolean
+  isSubstitute Boolean
+  isSubstituteIn Boolean
+  isSubstituteOut Boolean
+  isSubstituteBench Boolean
+  userId String
+  user   User    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isdeleted Boolean @default(false)
+}
+
+
+model Sponsor{
+  id       String @id @default(uuid())
+  name     String
+  logo     String
+  club     Club    @relation(fields: [clubId], references: [id])
+  clubId String
+  userId String
+  user   User    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isdeleted Boolean @default(false)
+}
+

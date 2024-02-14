@@ -1,9 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { PrismaService } from '@app/common';
+import { PrismaServiceClub } from '@app/common';
 
 @Injectable()
 export class CategoryRepository {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaServiceClub) {}
 
   async create(category: any) {
     try {

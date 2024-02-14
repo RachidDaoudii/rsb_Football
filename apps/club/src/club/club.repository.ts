@@ -1,10 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { PrismaService } from '@app/common';
+import { PrismaServiceClub } from '@app/common';
 import { CreateClubDto } from './dto/create-club.dto';
 
 @Injectable()
 export class ClubRepository {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaServiceClub) {}
 
   async create(club: any) {
     try {

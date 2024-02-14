@@ -14,6 +14,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { Response } from 'express';
+import { ForgetPasswordUserDto } from './dto/forgetpassword-user.dto';
 
 @Controller('api/auth')
 export class UserController {
@@ -33,16 +34,16 @@ export class UserController {
     try {
       const user = await this.userService.login(loginUserDto);
 
-      return res
-        .cookie('jwt', user.access_token, {
-          httpOnly: true,
-          secure: false,
-          sameSite: 'lax',
-        })
-        .json({
-          message: user.message,
-          data: user.info,
-        });
+      // return res
+      //   .cookie('jwt', user.access_token, {
+      //     httpOnly: true,
+      //     secure: false,
+      //     sameSite: 'lax',
+      //   })
+      //   .json({
+      //     message: user.message,
+      //     data: user.info,
+      //   });
     } catch (error) {
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
         error: error.message,
@@ -70,12 +71,22 @@ export class UserController {
   }
 
   @Post('forgot-password')
-  async forgotPassword(@Body() body: any, @Res() res: Response) {
+  async forgotPassword(
+    @Body() forgetpasswordUserDto: ForgetPasswordUserDto,
+    @Res() res: Response,
+  ) {
     try {
-      const user = await this.userService.forgotPassword(body.email);
+      const user = await this.userService.forgotPassword(
+        forgetpasswordUserDto.email,
+      );
 
+      if (!user) {
+        return res.status(HttpStatus.NOT_FOUND).json({
+          message: ['User not found'],
+        });
+      }
       return res.status(HttpStatus.OK).json({
-        message: user,
+        user,
       });
     } catch (error) {
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({

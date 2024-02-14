@@ -1,20 +1,21 @@
 import { Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
-import { DatabaseModule } from '@app/common';
+// import { DatabaseModule } from '@app/common';
 import { UserDocument, UserSchema } from './models/user.schema';
 import { UserRepository } from './user.repository';
 import { bcryptService } from '../helpers/bcrypt/bcrypt.service';
 import { JwtService } from '@nestjs/jwt';
 import { JwtModule } from '@nestjs/jwt';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { EmailService } from '../helpers/mail/mail.service';
 
 @Module({
   imports: [
-    DatabaseModule,
-    DatabaseModule.forFeature([
-      { name: UserDocument.name, schema: UserSchema },
-    ]),
+    // DatabaseModule,
+    // DatabaseModule.forFeature([
+    //   { name: UserDocument.name, schema: UserSchema },
+    // ]),
     JwtModule.register({
       global: true,
       secret: process.env.SECREtKEYJWT,
@@ -36,6 +37,12 @@ import { MailerModule } from '@nestjs-modules/mailer';
     }),
   ],
   controllers: [UserController],
-  providers: [UserService, UserRepository, bcryptService, JwtService],
+  providers: [
+    UserService,
+    UserRepository,
+    bcryptService,
+    JwtService,
+    EmailService,
+  ],
 })
 export class UserModule {}
