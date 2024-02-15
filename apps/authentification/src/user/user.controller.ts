@@ -15,6 +15,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { Response } from 'express';
 import { ForgetPasswordUserDto } from './dto/forgetpassword-user.dto';
+import { log } from 'console';
 
 @Controller('api/auth')
 export class UserController {
@@ -34,16 +35,28 @@ export class UserController {
     try {
       const user = await this.userService.login(loginUserDto);
 
-      // return res
-      //   .cookie('jwt', user.access_token, {
-      //     httpOnly: true,
-      //     secure: false,
-      //     sameSite: 'lax',
-      //   })
-      //   .json({
-      //     message: user.message,
-      //     data: user.info,
-      //   });
+      if (!user) {
+        return res.status(HttpStatus.NOT_FOUND).json({
+          message: 'Email or password incorrect',
+        });
+      }
+
+      if (user.messageError) {
+        return res.status(HttpStatus.NOT_FOUND).json({
+          message: user.messageError,
+        });
+      }
+
+      return res
+        .cookie('jwt', user.access_token, {
+          httpOnly: true,
+          secure: false,
+          sameSite: 'lax',
+        })
+        .json({
+          message: 'User logged in successfully',
+          data: user.info,
+        });
     } catch (error) {
       return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
         error: error.message,

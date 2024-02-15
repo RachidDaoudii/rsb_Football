@@ -2,17 +2,11 @@ import { Module } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { BlogController } from './blog.controller';
 import { BlogRepository } from './blog.repository';
-import { DatabaseModule } from '@app/common';
-import { BlogDocument, BlogSchema } from './models/blog.schema';
+import { PrismaModuleBlog, PrismaServiceBlog } from '@app/common/database/blog';
 
 @Module({
-  imports: [
-    DatabaseModule,
-    DatabaseModule.forFeature([
-      { name: BlogDocument.name, schema: BlogSchema },
-    ]),
-  ],
+  imports: [PrismaModuleBlog],
   controllers: [BlogController],
-  providers: [BlogService, BlogRepository],
+  providers: [PrismaServiceBlog, BlogService, BlogRepository],
 })
 export class BlogModule {}

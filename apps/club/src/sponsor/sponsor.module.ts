@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { SponsorService } from './sponsor.service';
 import { SponsorController } from './sponsor.controller';
-import { PrismaModuleClub, PrismaServiceClub } from '@app/common';
+import { PrismaModuleClub, PrismaServiceClub } from '@app/common/database/club';
 import { SponsorRepository } from './sponsor.repository';
 
 @Module({

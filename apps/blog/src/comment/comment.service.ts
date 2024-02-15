@@ -7,36 +7,43 @@ import { CommentRepository } from './comment.repository';
 export class CommentService {
   constructor(private readonly commentRepository: CommentRepository) {}
 
-  create(createCommentDto: CreateCommentDto) {
-    // if (createCommentDto._id) {
-    //   const comment = this.findOne(createCommentDto._id);
-    //   if (comment) {
-    //     // createCommentDto.replies.push(createCommentDto._id);
-    //   }
-    // }
-    // return this.commentRepository.create({
-    //   ...createCommentDto,
-    //   timestamp: new Date(),
-    //   replies: createCommentDto.replies
-    // });
+  async create(createCommentDto: CreateCommentDto) {
+    try {
+      return await this.commentRepository.create(createCommentDto);
+    } catch (error) {
+      return error;
+    }
   }
 
   findAll() {
-    // return this.commentRepository.find({});
+    try {
+      return this.commentRepository.findAll();
+    } catch (error) {
+      return error;
+    }
   }
 
-  findOne(_id: string) {
-    // return this.commentRepository.findOne({ _id });
+  findOne(id: string) {
+    try {
+      return this.commentRepository.findOne(id);
+    } catch (error) {
+      return error;
+    }
   }
 
-  update(_id: string, updateCommentDto: UpdateCommentDto) {
-    // return this.commentRepository.findOneAndUpdate(
-    //   { _id },
-    //   { $set: updateCommentDto },
-    // );
+  update(id: string, updateCommentDto: UpdateCommentDto) {
+    try {
+      return this.commentRepository.update(id, updateCommentDto);
+    } catch (error) {
+      return error;
+    }
   }
 
-  remove(_id: string) {
-    // return this.commentRepository.findOneAndDelete({ _id });
+  remove(id: string) {
+    try {
+      return this.commentRepository.delete(id);
+    } catch (error) {
+      return error;
+    }
   }
 }

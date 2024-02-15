@@ -7,30 +7,28 @@ import { BlogRepository } from './blog.repository';
 export class BlogService {
   constructor(private readonly blogRepository: BlogRepository) {}
 
-  create(createBlogDto: CreateBlogDto) {
-    return this.blogRepository.create({
-      ...createBlogDto,
-      timestamp: new Date(),
-    });
+  async create(createBlogDto: CreateBlogDto) {
+    const blog = await this.blogRepository.create(createBlogDto);
+    return blog;
   }
 
-  findAll() {
-    // return this.blogRepository.find({});
-    return this.blogRepository.findtest();
+  async findAll() {
+    return await this.blogRepository.findAll();
   }
 
-  findOne(_id: string) {
-    return this.blogRepository.findOne({ _id });
+  async findOne(id: string) {
+    return await this.blogRepository.findOne(id);
   }
 
-  update(_id: string, updateBlogDto: UpdateBlogDto) {
-    return this.blogRepository.findOneAndUpdate(
-      { _id },
-      { $set: updateBlogDto },
-    );
+  async update(id: string, updateBlogDto: UpdateBlogDto) {
+    return await this.blogRepository.update(id, updateBlogDto);
   }
 
-  remove(_id: string) {
-    return this.blogRepository.findOneAndDelete({ _id });
+  async remove(id: string) {
+    return await this.blogRepository.remove(id);
+  }
+
+  async findManyByCategory(categoryId: string) {
+    // return await this.blogRepository.findManyByCategory(categoryId);
   }
 }

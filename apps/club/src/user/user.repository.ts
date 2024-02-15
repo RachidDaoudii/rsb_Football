@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { PrismaServiceClub } from '@app/common';
+import { PrismaServiceClub } from '@app/common/database/club';
 
 @Injectable()
 export class UserRepository {
