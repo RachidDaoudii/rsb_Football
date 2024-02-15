@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TeamService } from './team.service';
 import { TeamController } from './team.controller';
-import { PrismaModuleClub, PrismaServiceClub } from '@app/common';
+import { PrismaModuleClub, PrismaServiceClub } from '@app/common/database/club';
 import { TeamRepository } from './team.repository';
 
 @Module({

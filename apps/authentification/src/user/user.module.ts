@@ -1,21 +1,20 @@
 import { Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
-// import { DatabaseModule } from '@app/common';
-import { UserDocument, UserSchema } from './models/user.schema';
 import { UserRepository } from './user.repository';
 import { bcryptService } from '../helpers/bcrypt/bcrypt.service';
-import { JwtService } from '@nestjs/jwt';
+import { ServiceJwt } from '../helpers/jwt/jwt.service';
 import { JwtModule } from '@nestjs/jwt';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { EmailService } from '../helpers/mail/mail.service';
+import {
+  PrismaModuleAuthentification,
+  PrismaServiceAuthentification,
+} from '@app/common/database/authentification';
 
 @Module({
   imports: [
-    // DatabaseModule,
-    // DatabaseModule.forFeature([
-    //   { name: UserDocument.name, schema: UserSchema },
-    // ]),
+    PrismaModuleAuthentification,
     JwtModule.register({
       global: true,
       secret: process.env.SECREtKEYJWT,
@@ -38,10 +37,11 @@ import { EmailService } from '../helpers/mail/mail.service';
   ],
   controllers: [UserController],
   providers: [
+    PrismaServiceAuthentification,
     UserService,
     UserRepository,
     bcryptService,
-    JwtService,
+    ServiceJwt,
     EmailService,
   ],
 })

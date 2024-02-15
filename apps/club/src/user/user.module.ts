@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
-import { PrismaModuleClub, PrismaServiceClub } from '@app/common';
+import { PrismaModuleClub, PrismaServiceClub } from '@app/common/database/club';
 import { UserRepository } from './user.repository';
 
 @Module({

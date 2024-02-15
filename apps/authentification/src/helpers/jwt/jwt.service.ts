@@ -1,9 +1,11 @@
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
+@Injectable()
 export class ServiceJwt {
   constructor(private readonly jwtService: JwtService) {}
 
-  async sign(payload: any) {
+  async sign(payload: object) {
     const token = await this.jwtService.sign(payload, {
       secret: process.env.SECREtKEYJWT,
       expiresIn: '2day',
