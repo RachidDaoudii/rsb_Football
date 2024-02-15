@@ -2,8 +2,7 @@ import { Module } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CategoryController } from './category.controller';
 import { CategoryRepository } from './category.repository';
-import { PrismaModuleBlog } from '@app/common/database/blog';
-import { PrismaServiceBlog } from '@app/common/database/blog';
+import { PrismaModuleBlog ,PrismaServiceBlog } from '@app/common/database/blog';
 
 @Module({
   imports: [PrismaModuleBlog],

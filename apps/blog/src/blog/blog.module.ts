@@ -2,8 +2,7 @@ import { Module } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { BlogController } from './blog.controller';
 import { BlogRepository } from './blog.repository';
-import { PrismaModuleBlog } from '@app/common/database/blog';
-import { PrismaServiceBlog } from '@app/common/database/blog';
+import { PrismaModuleBlog, PrismaServiceBlog } from '@app/common/database/blog';
 
 @Module({
   imports: [PrismaModuleBlog],

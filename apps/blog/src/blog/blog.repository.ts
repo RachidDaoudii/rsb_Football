@@ -35,6 +35,15 @@ export class BlogRepository {
         where: {
           isdeleted: false,
         },
+        include: {
+          categories: true,
+          comments: {
+            include: {
+              user: true,
+            },
+          },
+          author: true,
+        },
       });
     } catch (error) {
       this.logger.error(error);
@@ -48,6 +57,11 @@ export class BlogRepository {
         where: {
           id: id,
           isdeleted: false,
+        },
+        include: {
+          categories: true,
+          comments: true,
+          author: true,
         },
       });
     } catch (error) {
@@ -112,6 +126,7 @@ export class BlogRepository {
               assignedAt: true,
             },
           },
+          comments: true,
         },
       });
     } catch (error) {
