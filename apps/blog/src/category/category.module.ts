@@ -2,11 +2,17 @@ import { Module } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CategoryController } from './category.controller';
 import { CategoryRepository } from './category.repository';
-import { PrismaModuleBlog ,PrismaServiceBlog } from '@app/common/database/blog';
+import { PrismaServiceBlog } from '@app/common/database/blog';
+import { ServiceJwt } from '@app/common/helpers/jwt';
 
 @Module({
-  imports: [PrismaModuleBlog],
+  imports: [],
   controllers: [CategoryController],
-  providers: [PrismaServiceBlog, CategoryService, CategoryRepository],
+  providers: [
+    PrismaServiceBlog,
+    CategoryService,
+    CategoryRepository,
+    ServiceJwt,
+  ],
 })
 export class CategoryModule {}
