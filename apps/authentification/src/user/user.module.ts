@@ -2,9 +2,8 @@ import { Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { UserRepository } from './user.repository';
-import { bcryptService } from '../helpers/bcrypt/bcrypt.service';
+import { bcryptService } from '@app/common';
 import { ServiceJwt } from '../helpers/jwt/jwt.service';
-import { JwtModule } from '@nestjs/jwt';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { EmailService } from '../helpers/mail/mail.service';
 import {
@@ -12,14 +11,12 @@ import {
   PrismaServiceAuthentification,
 } from '@app/common/database/authentification';
 
+import { JwtModule } from '@app/common/helpers/jwt';
+// import { EmailService } from '@app/common/helpers/mail/mail.service';
 @Module({
   imports: [
     PrismaModuleAuthentification,
-    JwtModule.register({
-      global: true,
-      secret: process.env.SECREtKEYJWT,
-      signOptions: { expiresIn: '2day' },
-    }),
+    JwtModule,
     MailerModule.forRoot({
       transport: {
         host: 'sandbox.smtp.mailtrap.io',
