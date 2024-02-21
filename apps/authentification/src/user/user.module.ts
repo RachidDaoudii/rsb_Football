@@ -13,7 +13,12 @@ import { User } from './models/user.entity';
 import { Role } from './models/role.entity';
 import * as Joi from 'joi';
 import { LocalStrategy } from '../auth/strategies/local.strategy';
-
+import {
+  ClientProxyFactory,
+  ClientsModule,
+  Transport,
+} from '@nestjs/microservices';
+import { AUTH_SERVICE, blogService } from '@app/common/constant';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -46,6 +51,19 @@ import { LocalStrategy } from '../auth/strategies/local.strategy';
         from: '"No Reply" <noreply@example.com>',
       },
     }),
+    ClientsModule.registerAsync([
+      {
+        name: blogService,
+        useFactory: (configservice: ConfigService) => ({
+          transport: Transport.RMQ,
+          options: {
+            urls: [configservice.getOrThrow<string>('RaBbitMQ_URL')],
+            queue: 'blog',
+          },
+        }),
+        inject: [ConfigService],
+      },
+    ]),
   ],
   controllers: [UserController],
   providers: [
@@ -56,6 +74,5 @@ import { LocalStrategy } from '../auth/strategies/local.strategy';
     EmailService,
     LocalStrategy,
   ],
-  exports: [UserService],
 })
 export class UserModule {}

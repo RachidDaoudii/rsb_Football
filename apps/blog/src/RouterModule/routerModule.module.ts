@@ -4,7 +4,6 @@ import { CommentModule } from '../comment/comment.module';
 import { CategoryModule } from '../category/category.module';
 import { UserModule } from '../user/user.module';
 import { JwtModule } from '@app/common/helpers/jwt';
-import { authService } from '@app/common/constant';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { DatabaseModule } from '../config';
@@ -25,20 +24,6 @@ import * as Joi from 'joi';
     CommentModule,
     CategoryModule,
     UserModule,
-
-    ClientsModule.registerAsync([
-      {
-        name: authService,
-        useFactory: (configservice: ConfigService) => ({
-          transport: Transport.RMQ,
-          options: {
-            urls: [configservice.getOrThrow<string>('RaBbitMQ_URL')],
-            queue: 'authentification',
-          },
-        }),
-        inject: [ConfigService],
-      },
-    ]),
   ],
   controllers: [],
   providers: [],

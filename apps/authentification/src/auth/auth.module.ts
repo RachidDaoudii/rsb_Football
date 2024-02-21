@@ -13,6 +13,14 @@ import { bcryptService } from '@app/common';
 import { ServiceJwt } from '../helpers/jwt/jwt.service';
 import { EmailService } from '../helpers/mail/mail.service';
 import { MailerModule } from '@nestjs-modules/mailer';
+
+import {
+  ClientProxyFactory,
+  ClientsModule,
+  Transport,
+} from '@nestjs/microservices';
+import { AUTH_SERVICE, blogService } from '@app/common/constant';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -45,8 +53,20 @@ import { MailerModule } from '@nestjs-modules/mailer';
         from: '"No Reply" <noreply@example.com>',
       },
     }),
-
     // AuthService,
+    ClientsModule.registerAsync([
+      {
+        name: blogService,
+        useFactory: (configservice: ConfigService) => ({
+          transport: Transport.RMQ,
+          options: {
+            urls: [configservice.getOrThrow<string>('RaBbitMQ_URL')],
+            queue: 'blog',
+          },
+        }),
+        inject: [ConfigService],
+      },
+    ]),
   ],
   controllers: [AuthController],
   providers: [

@@ -1,4 +1,4 @@
-const authService = 'authentification';
+const AUTH_SERVICE = 'authentification';
 const blogService = 'blog';
 
-export { authService, blogService };
+export { AUTH_SERVICE, blogService };

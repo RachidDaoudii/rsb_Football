@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, Inject } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserRepository } from './user.repository';
 import { bcryptService } from '@app/common/helpers/bcrypt';
@@ -7,10 +7,12 @@ import { log } from 'console';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
-
+import { AUTH_SERVICE, blogService } from '@app/common/constant';
+import { ClientProxy } from '@nestjs/microservices';
 @Injectable()
 export class UserService {
   constructor(
+    @Inject(blogService) private readonly authClient: ClientProxy,
     private readonly userRepository: UserRepository,
     private readonly bcryptservice: bcryptService,
   ) {}
@@ -26,6 +28,8 @@ export class UserService {
       if (!user) {
         return false;
       }
+
+      return this.authClient.send('create-user', user);
       return user;
     } catch (error) {
       return error.message;
