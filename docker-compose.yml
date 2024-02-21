@@ -1,0 +1,66 @@
+version: '3'
+services:
+  authentification:
+    image: authentification
+    build:
+      context: .
+      dockerfile: ./apps/authentification/Dockerfile
+      target: development
+    restart: always
+    command: npm run authentification
+    env_file: .env
+    ports:
+      - '3000:3000'
+    depends_on:
+      - 'rabbitmq'
+    # environment:
+
+    #   POSTGRES_DB: rsb-service-auth
+    #   POSTGRES_USER: postgres
+    #   POSTGRES_PASSWORD: rachid
+    #   POSTGRES_HOST: postgres-container
+
+    # depends_on:
+    #   - postgres-container
+
+  blog:
+    image: blog
+    build:
+      context: .
+      dockerfile: ./apps/blog/Dockerfile
+      target: development
+    restart: always
+    command: npm run blog
+    env_file: .env
+    ports:
+      - '3001:3001'
+    depends_on:
+      - 'rabbitmq'
+    # environment:
+    #   POSTGRES_DB: rsb-service-blog
+    #   POSTGRES_USER: postgres
+    #   POSTGRES_PASSWORD: rachid
+    #   POSTGRES_HOST: postgres-container
+
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - '5672:5672'
+
+  # postgres-container:
+  #   image: postgres:latest
+  #   restart: always
+  #   environment:
+  #     POSTGRES_DB: rsb-service-auth
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: rachid
+  #   ports:
+  #     - '5432:5432'
+
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: admin@example.com
+  #     PGADMIN_DEFAULT_PASSWORD: admin
+  #   ports:
+  #     - '5050:80'

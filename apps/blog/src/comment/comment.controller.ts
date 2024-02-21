@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -14,7 +15,7 @@ import { UpdateCommentDto } from './dto/update-comment.dto';
 import { AuthGuard } from '@app/common/guards/auth.guard';
 
 @Controller('comment')
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
@@ -25,6 +26,7 @@ export class CommentController {
 
   @Get()
   findAll() {
+    console.log('Finding all comments');
     return this.commentService.findAll();
   }
 

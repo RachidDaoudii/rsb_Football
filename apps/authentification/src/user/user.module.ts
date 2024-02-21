@@ -6,17 +6,32 @@ import { bcryptService } from '@app/common';
 import { ServiceJwt } from '../helpers/jwt/jwt.service';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { EmailService } from '../helpers/mail/mail.service';
-import {
-  PrismaModuleAuthentification,
-  PrismaServiceAuthentification,
-} from '@app/common/database/authentification';
+import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { DatabaseModule } from '../config/database/database.module';
+import { User } from './models/user.entity';
+import { Role } from './models/role.entity';
+import * as Joi from 'joi';
+import { LocalStrategy } from '../auth/strategies/local.strategy';
 
-import { JwtModule } from '@app/common/helpers/jwt';
-// import { EmailService } from '@app/common/helpers/mail/mail.service';
 @Module({
   imports: [
-    PrismaModuleAuthentification,
-    JwtModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      validationSchema: Joi.object({
+        SECREtKEYJWT: Joi.string().required(),
+        JwtExpireTime: Joi.string().required(),
+      }),
+    }),
+    DatabaseModule,
+    DatabaseModule.forFeature([User, Role]),
+    JwtModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.getOrThrow('SECREtKEYJWT'),
+        signOptions: { expiresIn: configService.getOrThrow('JwtExpireTime') },
+      }),
+    }),
     MailerModule.forRoot({
       transport: {
         host: 'sandbox.smtp.mailtrap.io',
@@ -34,12 +49,13 @@ import { JwtModule } from '@app/common/helpers/jwt';
   ],
   controllers: [UserController],
   providers: [
-    PrismaServiceAuthentification,
     UserService,
     UserRepository,
     bcryptService,
     ServiceJwt,
     EmailService,
+    LocalStrategy,
   ],
+  exports: [UserService],
 })
 export class UserModule {}

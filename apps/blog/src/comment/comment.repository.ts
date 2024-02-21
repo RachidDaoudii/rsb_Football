@@ -1,19 +1,13 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { PrismaServiceBlog } from '@app/common/database/blog';
 
 @Injectable()
 export class CommentRepository {
   protected readonly logger = new Logger(CommentRepository.name);
 
-  constructor(private prismaServiceBlog: PrismaServiceBlog) {}
+  constructor() {}
 
   async create(data: any) {
     try {
-      return await this.prismaServiceBlog.comment.create({
-        data: {
-          ...data,
-        },
-      });
     } catch (error) {
       this.logger.error(error);
       return error;
@@ -22,18 +16,14 @@ export class CommentRepository {
 
   async findAll() {
     try {
-      return await this.prismaServiceBlog.comment.findMany();
     } catch (error) {
-      this.logger.error(error);
+      this.logger.error(error.message);
       return error;
     }
   }
 
   async findOne(id: string) {
     try {
-      return await this.prismaServiceBlog.comment.findUnique({
-        where: { id },
-      });
     } catch (error) {
       this.logger.error(error);
       return error;
@@ -42,12 +32,6 @@ export class CommentRepository {
 
   async update(id: string, data: any) {
     try {
-      return await this.prismaServiceBlog.comment.update({
-        where: { id },
-        data: {
-          ...data,
-        },
-      });
     } catch (error) {
       this.logger.error(error);
       return error;
@@ -56,9 +40,6 @@ export class CommentRepository {
 
   async delete(id: string) {
     try {
-      return await this.prismaServiceBlog.comment.delete({
-        where: { id },
-      });
     } catch (error) {
       this.logger.error(error);
       return error;

@@ -1,28 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { PrismaServiceBlog } from '@app/common/database/blog';
 
 @Injectable()
 export class BlogRepository {
   protected readonly logger = new Logger(BlogRepository.name);
-  constructor(private prismaServiceBlog: PrismaServiceBlog) {}
+  constructor() {}
 
   async create(data: any) {
     try {
-      return await this.prismaServiceBlog.post.create({
-        data: {
-          title: data.title,
-          content: data.content,
-          image: data.image,
-          authorId: data.authorId,
-          categories: {
-            create: data.categories.map((categoryId: string) => ({
-              assignedBy: 'Bob',
-              assignedAt: new Date(),
-              categoryId: categoryId,
-            })),
-          },
-        },
-      });
     } catch (error) {
       this.logger.error(error);
       return error;
@@ -31,20 +15,6 @@ export class BlogRepository {
 
   async findAll() {
     try {
-      return await this.prismaServiceBlog.post.findMany({
-        where: {
-          isdeleted: false,
-        },
-        include: {
-          categories: true,
-          comments: {
-            include: {
-              user: true,
-            },
-          },
-          author: true,
-        },
-      });
     } catch (error) {
       this.logger.error(error);
       return error;
@@ -53,17 +23,6 @@ export class BlogRepository {
 
   async findOne(id: string) {
     try {
-      return await this.prismaServiceBlog.post.findUnique({
-        where: {
-          id: id,
-          isdeleted: false,
-        },
-        include: {
-          categories: true,
-          comments: true,
-          author: true,
-        },
-      });
     } catch (error) {
       this.logger.error(error);
       return error;
@@ -72,29 +31,6 @@ export class BlogRepository {
 
   async update(id: string, data: any) {
     try {
-      return await this.prismaServiceBlog.post.update({
-        where: {
-          id: id,
-          // isdeleted: false
-        },
-        data: {
-          title: data.title,
-          content: data.content,
-          image: data.image,
-          authorId: data.authorId,
-          categories: {
-            deleteMany: {},
-            create: data.categories.map((categoryId: string) => ({
-              assignedBy: 'Bob',
-              assignedAt: new Date(),
-              categoryId: categoryId,
-            })),
-          },
-        },
-        include: {
-          categories: true,
-        },
-      });
     } catch (error) {
       this.logger.error(error);
       return error;
@@ -103,12 +39,6 @@ export class BlogRepository {
 
   async remove(id: string) {
     try {
-      return await this.prismaServiceBlog.post.update({
-        where: { id: id },
-        data: {
-          isdeleted: true,
-        },
-      });
     } catch (error) {
       this.logger.error(error);
       return error;
@@ -117,18 +47,6 @@ export class BlogRepository {
 
   async findAllPostWithCategory() {
     try {
-      return await this.prismaServiceBlog.post.findMany({
-        include: {
-          categories: {
-            select: {
-              category: true,
-              assignedBy: true,
-              assignedAt: true,
-            },
-          },
-          comments: true,
-        },
-      });
     } catch (error) {
       this.logger.error(error);
       return error;
