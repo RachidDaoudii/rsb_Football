@@ -2,9 +2,10 @@ import { Module } from '@nestjs/common';
 import { CommentService } from './comment.service';
 import { CommentController } from './comment.controller';
 import { CommentRepository } from './comment.repository';
-import { PrismaServiceBlog } from '@app/common/database/blog';
 import { AuthGuard } from '@app/common/guards/auth.guard';
 import { ServiceJwt } from '@app/common/helpers/jwt';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { AuthInterceptor } from '@app/common/interceptors';
 
 @Module({
   imports: [],
@@ -12,9 +13,13 @@ import { ServiceJwt } from '@app/common/helpers/jwt';
   providers: [
     CommentService,
     CommentRepository,
-    PrismaServiceBlog,
-    ServiceJwt,
-    AuthGuard,
+
+    // ServiceJwt,
+    // AuthGuard,
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useClass: AuthInterceptor,
+    // },
   ],
 })
 export class CommentModule {}

@@ -14,7 +14,7 @@ import { UpdateBlogDto } from './dto/update-blog.dto';
 import { AuthGuard } from '@app/common/guards/auth.guard';
 
 @Controller('blog')
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 export class BlogController {
   constructor(private readonly blogService: BlogService) {}
 
