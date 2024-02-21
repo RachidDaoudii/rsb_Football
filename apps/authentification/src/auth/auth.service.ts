@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import * as bcrypt from 'bcrypt';
 import { User } from '../entities';
@@ -11,6 +11,7 @@ export class AuthService {
     private readonly userService: UserService,
     private jwtService: JwtService,
     private readonly bcryptservice: bcryptService,
+   
   ) {}
 
   async validateUser(email: string, password: string) {
@@ -30,6 +31,7 @@ export class AuthService {
       email: user.email,
       roles: user.roles,
     };
+
     return {
       ...user,
       accessToken: this.jwtService.sign(payload),

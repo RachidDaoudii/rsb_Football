@@ -9,6 +9,8 @@ async function bootstrap() {
   const app = await NestFactory.create(routerModule);
   const configService = app.get(ConfigService);
 
+  console.log('sending...........');
+
   app.connectMicroservice({
     transport: Transport.RMQ,
     options: {

@@ -5,6 +5,7 @@ import {
   Request,
   UseGuards,
   Res,
+  Inject,
 } from '@nestjs/common';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { UserService } from '../user/user.service';
@@ -14,7 +15,8 @@ import { RefreshJwtGuard } from './guards/refresh-jwt-auth.guard';
 import { RefreshJwtStrategy } from './strategies/refreshToken.strategy';
 import { Response } from 'express';
 import { log } from 'console';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+
+import { AUTH_SERVICE } from '@app/common/constant';
 
 @Controller('api/auth')
 export class AuthController {
@@ -72,9 +74,10 @@ export class AuthController {
   }
 
   @Post('register')
-  @MessagePattern('create-user')
-  async registerUser(@Payload() @Body() createUserDto: CreateUserDto) {
-    return await this.userService.create(createUserDto);
+  async registerUser(@Body() createUserDto: CreateUserDto) {
+    const res = await this.userService.create(createUserDto);
+
+    return res;
   }
 
   @UseGuards(RefreshJwtGuard)
