@@ -61,6 +61,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/blog/tsconfig.app.json"
       }
+    },
+    "managementclub": {
+      "type": "application",
+      "root": "apps/managementclub",
+      "entryFile": "main",
+      "sourceRoot": "apps/managementclub/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/managementclub/tsconfig.app.json"
+      }
     }
   },
   "monorepo": true,
