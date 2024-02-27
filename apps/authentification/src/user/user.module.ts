@@ -18,7 +18,11 @@ import {
   ClientsModule,
   Transport,
 } from '@nestjs/microservices';
-import { AUTH_SERVICE, blogService } from '@app/common/constant';
+import {
+  AUTH_SERVICE,
+  blogService,
+  MANAGEMENTCLUB,
+} from '@app/common/constant';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -37,20 +41,20 @@ import { AUTH_SERVICE, blogService } from '@app/common/constant';
         signOptions: { expiresIn: configService.getOrThrow('JwtExpireTime') },
       }),
     }),
-    MailerModule.forRoot({
-      transport: {
-        host: 'sandbox.smtp.mailtrap.io',
-        port: 2525,
-        secure: false,
-        auth: {
-          user: 'f2d5933f5bde71',
-          pass: '24aaf12cf0514d',
-        },
-      },
-      defaults: {
-        from: '"No Reply" <noreply@example.com>',
-      },
-    }),
+    // MailerModule.forRoot({
+    //   transport: {
+    //     host: 'sandbox.smtp.mailtrap.io',
+    //     port: 2525,
+    //     secure: false,
+    //     auth: {
+    //       user: 'f2d5933f5bde71',
+    //       pass: '24aaf12cf0514d',
+    //     },
+    //   },
+    //   defaults: {
+    //     from: '"No Reply" <noreply@example.com>',
+    //   },
+    // }),
     ClientsModule.registerAsync([
       {
         name: blogService,
@@ -59,6 +63,17 @@ import { AUTH_SERVICE, blogService } from '@app/common/constant';
           options: {
             urls: [configservice.getOrThrow<string>('RaBbitMQ_URL')],
             queue: 'blog',
+          },
+        }),
+        inject: [ConfigService],
+      },
+      {
+        name: MANAGEMENTCLUB,
+        useFactory: (configservice: ConfigService) => ({
+          transport: Transport.RMQ,
+          options: {
+            urls: [configservice.getOrThrow<string>('RaBbitMQ_URL')],
+            queue: 'managementclub',
           },
         }),
         inject: [ConfigService],

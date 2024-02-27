@@ -7,7 +7,7 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { UserService } from './user.service';
+import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import {
@@ -17,40 +17,40 @@ import {
   RmqContext,
 } from '@nestjs/microservices';
 import { log } from 'console';
-@Controller('api/user')
-export class UserController {
-  constructor(private readonly userService: UserService) {}
+@Controller('api/v1/users')
+export class UsersController {
+  constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  @MessagePattern('create-user-blog')
-  create(@Payload() createUserDto: any, @Ctx() context: RmqContext) {
-    log('--------------------');
-    log('--------blog--------');
-    log('--------------------');
-    log('paylod blog createUserDto', createUserDto);
+  @MessagePattern('create-user-club')
+  create(@Payload() createUserDto: CreateUserDto, @Ctx() context: RmqContext) {
+    log('--------------------')
+    log('--------club--------')
+    log('--------------------')
+    log('paylod club createUserDto', createUserDto);
     const channel = context.getChannelRef();
     const originalMsg = context.getMessage();
     channel.ack(originalMsg);
-    return this.userService.create(createUserDto);
+    return this.usersService.create(createUserDto);
   }
 
   @Get()
   findAll() {
-    return this.userService.findAll();
+    return this.usersService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+    return this.usersService.findOne(+id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+    return this.usersService.update(+id, updateUserDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+    return this.usersService.remove(+id);
   }
 }

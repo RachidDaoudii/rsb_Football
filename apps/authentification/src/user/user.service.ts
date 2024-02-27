@@ -2,17 +2,22 @@ import { Injectable, UnauthorizedException, Inject } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserRepository } from './user.repository';
 import { bcryptService } from '@app/common/helpers/bcrypt';
-import { EmailService } from '../helpers/mail/mail.service';
 import { log } from 'console';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
-import { AUTH_SERVICE, blogService } from '@app/common/constant';
+import {
+  AUTH_SERVICE,
+  blogService,
+  MANAGEMENTCLUB,
+} from '@app/common/constant';
 import { ClientProxy } from '@nestjs/microservices';
 @Injectable()
 export class UserService {
   constructor(
     @Inject(blogService) private readonly authClient: ClientProxy,
+    @Inject(MANAGEMENTCLUB) private readonly managementClient: ClientProxy,
+
     private readonly userRepository: UserRepository,
     private readonly bcryptservice: bcryptService,
   ) {}
@@ -29,7 +34,18 @@ export class UserService {
         return false;
       }
 
-      return this.authClient.send('create-user', user);
+      // return this.managementClient.send('create-user-club', user);
+
+      const requests = [];
+
+      requests.push(
+        this.managementClient.send('create-user-club', user).toPromise(),
+      );
+
+      requests.push(this.authClient.send('create-user-blog', user).toPromise());
+
+      Promise.all(requests);
+
       return user;
     } catch (error) {
       return error.message;

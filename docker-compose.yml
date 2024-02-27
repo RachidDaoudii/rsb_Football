@@ -28,9 +28,21 @@ services:
     depends_on:
       - 'rabbitmq'
 
+  managementclub:
+    image: managementclub
+    build:
+      context: .
+      dockerfile: ./apps/managementclub/Dockerfile
+      target: development
+    restart: always
+    command: npm run managementclub
+    env_file: .env
+    ports:
+      - '4000:4000'
+    depends_on:
+      - 'rabbitmq'
+
   rabbitmq:
     image: rabbitmq
     ports:
       - '5672:5672'
-
-
