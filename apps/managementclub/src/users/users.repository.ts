@@ -1,7 +1,7 @@
 import { Injectable, Logger, ConflictException } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
-import { User } from '../entities';
+import { Users } from '../entities';
 
 @Injectable()
 export class UserRepository {
@@ -12,9 +12,9 @@ export class UserRepository {
     private readonly entityManager: EntityManager,
   ) {}
 
-  async create(data: any): Promise<User[]> {
+  async create(data: any): Promise<Users[]> {
     try {
-      const user = await this.entityManager.save(User, data);
+      const user = await this.entityManager.save(Users, data);
 
       return user;
     } catch (error) {
@@ -22,9 +22,9 @@ export class UserRepository {
     }
   }
 
-  async findOne(id: number): Promise<User> {
+  async findOne(id: number): Promise<Users> {
     try {
-      const user = await this.entityManager.findOne(User, {
+      const user = await this.entityManager.findOne(Users, {
         where: { id: id },
       });
 
@@ -38,9 +38,9 @@ export class UserRepository {
     }
   }
 
-  async find(): Promise<User[]> {
+  async find(): Promise<Users[]> {
     try {
-      return await this.entityManager.find(User);
+      return await this.entityManager.find(Users);
     } catch (error) {
       throw new ConflictException(error.message);
     }
@@ -49,12 +49,12 @@ export class UserRepository {
   async update(id: number, data: any) {
     try {
       const updateResult = await this.entityManager.update(
-        User,
+        Users,
         { id: id },
         data,
       );
       if (updateResult.affected && updateResult.affected > 0) {
-        const updatedUser = await this.entityManager.findOne(User, {
+        const updatedUser = await this.entityManager.findOne(Users, {
           where: { id: id },
         });
         return updatedUser;
@@ -68,10 +68,10 @@ export class UserRepository {
 
   async delete(id: number) {
     try {
-      const deleteResult = await this.entityManager.delete(User, id);
+      const deleteResult = await this.entityManager.delete(Users, id);
 
       if (deleteResult.affected && deleteResult.affected > 0) {
-        const deleteResult = await this.entityManager.findOne(User, {
+        const deleteResult = await this.entityManager.findOne(Users, {
           where: { id: id },
         });
         return deleteResult;
@@ -85,7 +85,7 @@ export class UserRepository {
 
   async restore(id: number) {
     try {
-      const user = await this.entityManager.restore(User, id);
+      const user = await this.entityManager.restore(Users, id);
 
       return user;
     } catch (error) {

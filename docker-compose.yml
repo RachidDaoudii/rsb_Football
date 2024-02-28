@@ -10,7 +10,7 @@ services:
     command: npm run authentification
     env_file: .env
     ports:
-      - '3000:3000'
+      - '4000:4000'
     depends_on:
       - 'rabbitmq'
 
@@ -24,7 +24,7 @@ services:
     command: npm run blog
     env_file: .env
     ports:
-      - '3001:3001'
+      - '4001:4001'
     depends_on:
       - 'rabbitmq'
 
@@ -38,7 +38,7 @@ services:
     command: npm run managementclub
     env_file: .env
     ports:
-      - '4000:4000'
+      - '4002:4002'
     depends_on:
       - 'rabbitmq'
 

@@ -1,5 +1,5 @@
 import { AbstractEntity } from '@app/common/config/database/abstract.entity';
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany ,ManyToOne} from 'typeorm';
 import { User } from './user.entity';
 
 @Entity()
@@ -8,8 +8,10 @@ export class Comment extends AbstractEntity<Comment> {
   id: number;
   @Column()
   content: string;
+  @Column()
+  userId: number;
   // relashionship
-  @OneToMany(() => User, (user) => user)
+  @ManyToOne(() => User, (user) => user)
   users: User[];
   // end relashionship
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
