@@ -5,6 +5,7 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   ManyToMany,
+  ManyToOne
 } from 'typeorm';
 import { User } from './user.entity';
 import { Category } from './category.entity';
@@ -15,8 +16,10 @@ export class Blog extends AbstractEntity<Blog> {
   id: number;
   @Column()
   content: string;
+  @Column()
+  userId: number;
   // relashionship
-  @OneToMany(() => User, (user) => user)
+  @ManyToOne(() => User, (user) => user)
   users: User[];
   @ManyToMany(() => Category, (category) => category.blogs)
   // @JoinTable()

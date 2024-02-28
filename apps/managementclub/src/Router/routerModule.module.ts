@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
-
 import { DatabaseModule } from '../config';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { UsersModule } from '../users/users.module';
+import { TeamsModule } from '../teams/teams.module';
+import { Users } from '../entities';
+import { Teams } from '../entities/team.entity';
 
 @Module({
   imports: [
@@ -14,7 +16,9 @@ import { UsersModule } from '../users/users.module';
       }),
     }),
     DatabaseModule,
+    DatabaseModule.forFeature([Users, Teams]),
     UsersModule,
+    TeamsModule,
   ],
   controllers: [],
   providers: [],

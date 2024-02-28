@@ -6,6 +6,7 @@ import {
   OneToMany,
   ManyToMany,
   JoinTable,
+  ManyToOne
 } from 'typeorm';
 import { User } from './user.entity';
 import { Blog } from './blog.entity';
@@ -16,8 +17,10 @@ export class Category extends AbstractEntity<Category> {
   id: number;
   @Column()
   name: string;
+  @Column()
+  userId: number;
   // relashionship
-  @OneToMany(() => User, (user) => user.categories)
+  @ManyToOne(() => User, (user) => user.categories)
   users: User[];
   @ManyToMany(() => Blog, (blog) => blog.categories)
   @JoinTable()
