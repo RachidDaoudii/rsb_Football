@@ -1,48 +1,73 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete ,Res,HttpStatus } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-// import { AuthGuard } from '@app/common/guards/auth.guard';
+import { Response } from 'express';
+import { log } from 'console';
 
-@Controller('category')
-// @UseGuards(AuthGuard)
+
+@Controller('api/v1/category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Post()
-  create(@Body() createCategoryDto: CreateCategoryDto) {
-    return this.categoryService.create(createCategoryDto);
+  async create(@Body() createCategoryDto: CreateCategoryDto,@Res() res:Response) {
+    const category = await this.categoryService.create(createCategoryDto);
+    return res.status(HttpStatus.CREATED).json({
+      message: 'Category created',
+      data: category
+    });
   }
 
   @Get()
-  findAll() {
-    return this.categoryService.findAll();
+  async findAll(@Res() res:Response) {
+    const category = await this.categoryService.findAll();
+    return res.status(HttpStatus.CREATED).json({
+      message: 'Category found',
+      data: category
+    });
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.categoryService.findOne(id);
+  async findOne(@Param('id') id: string,@Res() res:Response) {
+    const category =  await this.categoryService.findOne(+id);
+    if (!category) {
+      return res.status(HttpStatus.NOT_FOUND).json({
+        message: 'Category not found',
+      });
+    }
+
+    return res.status(HttpStatus.CREATED).json({
+      message: 'Category found',
+      data: category
+    });
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateCategoryDto: UpdateCategoryDto,
-  ) {
-    return this.categoryService.update(id, updateCategoryDto);
+  async update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto,@Res() res:Response) {
+    const category = await this.categoryService.update(+id, updateCategoryDto);
+    if (!category) {
+      return res.status(HttpStatus.NOT_FOUND).json({
+        message: 'Category not found',
+      });
+    }
+    return res.status(HttpStatus.CREATED).json({
+      message: 'Category updated',
+      data: category
+    });
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.categoryService.remove(id);
+  async remove(@Param('id') id: string,@Res() res:Response) {
+    const category =await  this.categoryService.remove(+id);
+    if (!category) {
+      return res.status(HttpStatus.NOT_FOUND).json({
+        message: 'Category not found',
+      });
+    }
+    return res.status(HttpStatus.CREATED).json({
+      message: 'Category deleted',
+      data: category
+    });
   }
 }

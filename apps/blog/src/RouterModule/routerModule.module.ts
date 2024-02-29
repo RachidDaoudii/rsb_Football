@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { BlogModule } from '../blog/blog.module';
+
 import { CommentModule } from '../comment/comment.module';
 import { CategoryModule } from '../category/category.module';
 import { UserModule } from '../user/user.module';
@@ -9,6 +9,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { DatabaseModule } from '../config';
 import { User, Blog, Category, Comment } from '../entities';
 import * as Joi from 'joi';
+import { PostModule } from '../post/post.module';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import * as Joi from 'joi';
     }),
     DatabaseModule,
     DatabaseModule.forFeature([User, Blog, Category, Comment]),
-    BlogModule,
+    PostModule,
     CommentModule,
     CategoryModule,
     UserModule,

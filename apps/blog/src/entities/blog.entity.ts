@@ -15,6 +15,10 @@ export class Blog extends AbstractEntity<Blog> {
   @PrimaryGeneratedColumn()
   id: number;
   @Column()
+  title: string;
+  @Column()
+  image: string;
+  @Column()
   content: string;
   @Column()
   userId: number;
