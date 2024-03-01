@@ -9,8 +9,7 @@ export class PostRepository {
   protected readonly logger = new Logger(PostRepository.name);
   constructor(
     @InjectEntityManager()
-    private readonly entityManager: EntityManager,
-    
+    private readonly entityManager: EntityManager, 
   ) {}
 
   async create(data: any): Promise<Post> {
@@ -32,7 +31,7 @@ export class PostRepository {
         const post =  await this.entityManager.findOne(Post, {
             where: { id: id },
             select: ['id', 'title','image' ,'content', 'createdAt'],
-            relations: ['users', 'categories'],
+            relations: ['users', 'categories','comments'],
         });
 
         
