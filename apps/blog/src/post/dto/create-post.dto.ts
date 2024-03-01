@@ -8,7 +8,7 @@ export class CreatePostDto {
     @IsNotEmpty()
     content: string;
     @IsNotEmpty()
-    categoryId: number;
+    categoriesId: number;
     @IsNotEmpty()
-    userId: number;
+    usersId: number;
 }

@@ -10,10 +10,8 @@ export class PostController {
 
   @Post()
   create(@Body() createPostDto: CreatePostDto) {
-    log('createPostDto', createPostDto);
     return this.postService.create(createPostDto);
   }
-// comment
   @Get()
   findAll() {
     return this.postService.findAll();

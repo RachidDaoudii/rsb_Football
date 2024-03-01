@@ -7,7 +7,7 @@ import { JwtModule } from '@app/common/helpers/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { DatabaseModule } from '../config';
-import { User, Blog, Category, Comment } from '../entities';
+import { User, Post, Category, Comment } from '../entities';
 import * as Joi from 'joi';
 import { PostModule } from '../post/post.module';
 
@@ -20,7 +20,7 @@ import { PostModule } from '../post/post.module';
       }),
     }),
     DatabaseModule,
-    DatabaseModule.forFeature([User, Blog, Category, Comment]),
+    DatabaseModule.forFeature([User, Post, Category, Comment]),
     PostModule,
     CommentModule,
     CategoryModule,

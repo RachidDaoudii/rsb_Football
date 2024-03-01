@@ -9,7 +9,7 @@ import {
   ManyToOne
 } from 'typeorm';
 import { User } from './user.entity';
-import { Blog } from './blog.entity';
+import { Post } from './post.entity';
 
 @Entity()
 export class Category extends AbstractEntity<Category> {
@@ -17,14 +17,9 @@ export class Category extends AbstractEntity<Category> {
   id: number;
   @Column()
   name: string;
-  @Column()
-  userId: number;
   // relashionship
-  @ManyToOne(() => User, (user) => user.categories)
-  users: User[];
-  @ManyToMany(() => Blog, (blog) => blog.categories)
-  @JoinTable()
-  blogs: Blog[];
+  @OneToMany(() => Post, (post) => post.categories)
+  posts: Post[];
   // end relashionship
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
