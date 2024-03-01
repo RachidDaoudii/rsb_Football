@@ -3,10 +3,12 @@ import {
   CanActivate,
   ExecutionContext,
   Inject,
+  ConflictException,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { Request, Response } from 'express';
 import { ServiceJwt } from '../helpers';
+
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -17,11 +19,16 @@ export class AuthGuard implements CanActivate {
   ): Promise<boolean | Observable<boolean> | any> {
     const request: Request = context.switchToHttp().getRequest();
     const response: Response = context.switchToHttp().getResponse();
-    try {
-      const token = request.headers.cookie.split('=')[1];
 
-      if (!request.headers.cookie) {
-        throw new Error();
+
+    try {
+      const token = request.headers?.cookie?.split('=')[1];
+      
+      if (!request?.headers?.cookie?.split('=')[1]) {
+        throw new Error(
+          'You are not authentified, please login',
+        );
+        
       }
 
       if (!token) {
@@ -31,13 +38,15 @@ export class AuthGuard implements CanActivate {
       const verify = await this.jwtService.verify(token);
 
       if (!verify) {
-        throw new Error();
+        throw new Error(
+          'You access token is not valid',
+        );
       }
 
       return true;
     } catch (error) {
-      response.status(401).json({ message: 'Token Invalid or Not Provided' });
-      return false;
+      // response.status(401).json({ message: error.message});
+      throw new ConflictException(error.message);
     }
   }
 }
