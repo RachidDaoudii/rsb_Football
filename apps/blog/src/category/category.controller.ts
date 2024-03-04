@@ -1,15 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete ,Res,HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete ,Res,HttpStatus,UseGuards } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Response } from 'express';
-import { log } from 'console';
-
+import { AuthGuard, RoleGuard } from '@app/common/guards';
+import { RoleEnum, Roles } from '@app/common';
 
 @Controller('api/v1/category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
+  @UseGuards(AuthGuard,RoleGuard)
+  @Roles(RoleEnum.Admin)
   @Post()
   async create(@Body() createCategoryDto: CreateCategoryDto,@Res() res:Response) {
     const category = await this.categoryService.create(createCategoryDto);
@@ -43,6 +45,8 @@ export class CategoryController {
     });
   }
 
+  @UseGuards(AuthGuard,RoleGuard)
+  @Roles(RoleEnum.Admin)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto,@Res() res:Response) {
     const category = await this.categoryService.update(+id, updateCategoryDto);
@@ -57,6 +61,8 @@ export class CategoryController {
     });
   }
 
+  @UseGuards(AuthGuard,RoleGuard)
+  @Roles(RoleEnum.Admin)
   @Delete(':id')
   async remove(@Param('id') id: string,@Res() res:Response) {
     const category =await  this.categoryService.remove(+id);

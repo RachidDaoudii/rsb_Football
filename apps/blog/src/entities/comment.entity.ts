@@ -13,10 +13,10 @@ export class Comment extends AbstractEntity<Comment> {
   // relashionship
   @ManyToOne(() => User, (user) => user.comments)
   @JoinColumn({ name: 'userId' })
-  users: User[];
+  users: number;
   @ManyToOne(() => Post, (post) => post.comments)
   @JoinColumn({ name: 'postId' })
-  posts: Post[];
+  posts: number;
   // end relashionship
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

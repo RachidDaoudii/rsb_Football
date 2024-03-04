@@ -15,8 +15,7 @@ import { RefreshJwtGuard } from './guards/refresh-jwt-auth.guard';
 import { RefreshJwtStrategy } from './strategies/refreshToken.strategy';
 import { Response } from 'express';
 import { log } from 'console';
-
-import { AUTH_SERVICE } from '@app/common/constant';
+import { AuthGuard, RoleGuard } from '@app/common/guards';
 
 @Controller('api/auth')
 export class AuthController {
@@ -50,12 +49,10 @@ export class AuthController {
 
       return res
         .cookie('accessToken', accessToken, {
-          httpOnly: true,
           sameSite: 'none',
           secure: true,
         })
         .cookie('refreshToken', refreshToken, {
-          httpOnly: true,
           sameSite: 'none',
           secure: true,
         })
@@ -85,5 +82,16 @@ export class AuthController {
   @Post('refresh')
   async refrshToken(@Request() req) {
     return this.authService.refreshToken(req.user);
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('logout')
+  async logout(@Res() res: Response) {
+    return res
+      .clearCookie('accessToken')
+      .clearCookie('refreshToken')
+      .json({
+        message: 'User logged out successfully',
+      });
   }
 }

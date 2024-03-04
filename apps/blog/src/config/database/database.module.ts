@@ -9,8 +9,8 @@ import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-clas
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
         url: configService
-          .getOrThrow('DATABASE_URL_BLOG'),
-          // .replace('localhost', 'host.docker.internal'),
+          .getOrThrow('DATABASE_URL_BLOG')
+          .replace('localhost', 'host.docker.internal'),
         autoLoadEntities: true,
         synchronize: true,
       }),

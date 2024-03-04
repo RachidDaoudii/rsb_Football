@@ -7,6 +7,9 @@ import { EntityManager } from 'typeorm';
 import { NotFoundException } from '@nestjs/common'
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { PostRepository } from '../post/post.repository';
+import { DeepPartial } from 'typeorm/common/DeepPartial';
+
+
 
 @Injectable()
 export class CommentRepository{
@@ -19,12 +22,15 @@ export class CommentRepository{
     
     async create(createCommentDto: CreateCommentDto): Promise<Comment> {
         try {
-            const users = await this.postRepository.findOneUser(createCommentDto.userId);
-            const posts = await this.entityManager.findOne(Post, { where: { id: createCommentDto.postId } });
-            if (!users || !posts) {
+            const user = await this.postRepository.findOneUser(createCommentDto.userId);
+            const post = await this.entityManager.findOne(Post, { where: { id: createCommentDto.postId } });
+            if (!user || !post) {
                 throw new NotFoundException(`Entity with ID not found`);
             }
-            const comment = await this.entityManager.create(Comment, { ...createCommentDto, users, posts });
+            const commentPartial: DeepPartial<Comment> = { ...createCommentDto };
+                commentPartial.users = createCommentDto.userId;
+                commentPartial.posts = createCommentDto.postId;
+            const comment = await this.entityManager.create(Comment, commentPartial);
             return this.entityManager.save(Comment, comment);
         } catch (error) {
             return error.message;
