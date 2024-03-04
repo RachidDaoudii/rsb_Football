@@ -47,6 +47,7 @@ export class AuthController {
         });
       }
 
+
       return res
         .cookie('accessToken', accessToken, {
           httpOnly: true,

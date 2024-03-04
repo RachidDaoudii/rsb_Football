@@ -22,30 +22,26 @@ export class AuthGuard implements CanActivate {
 
 
     try {
-      const token = request.headers?.cookie?.split('=')[1];
-      
-      if (!request?.headers?.cookie?.split('=')[1]) {
+      const accessTokenMatch = request?.headers?.cookie.match(/accessToken=([^;]*)/);
+      if (!accessTokenMatch[1]) {
         throw new Error(
           'You are not authentified, please login',
         );
         
       }
 
-      if (!token) {
-        return false;
-      }
-
-      const verify = await this.jwtService.verify(token);
-
+      const verify = await this.jwtService.verify(accessTokenMatch[1]);
       if (!verify) {
         throw new Error(
           'You access token is not valid',
         );
       }
 
+      request.user = verify;
+
       return true;
     } catch (error) {
-      // response.status(401).json({ message: error.message});
+      response.status(401).json({ message: error.message});
       throw new ConflictException(error.message);
     }
   }

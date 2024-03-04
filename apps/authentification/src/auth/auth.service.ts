@@ -3,13 +3,13 @@ import { UserService } from '../user/user.service';
 import * as bcrypt from 'bcrypt';
 import { User } from '../entities';
 import { JwtService } from '@nestjs/jwt';
-import { bcryptService } from '@app/common';
+import { ServiceJwt, bcryptService } from '@app/common';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
-    private jwtService: JwtService,
+    private jwtService: ServiceJwt,
     private readonly bcryptservice: bcryptService,
    
   ) {}
@@ -34,8 +34,8 @@ export class AuthService {
 
     return {
       ...user,
-      accessToken: this.jwtService.sign(payload),
-      refreshToken: this.jwtService.sign(payload, { expiresIn: '7d' }),
+      accessToken:await  this.jwtService.sign(payload),
+      refreshToken:await this.jwtService.sign(payload),
     };
   }
 
@@ -47,8 +47,9 @@ export class AuthService {
       email: user.email,
       roles: user.roles,
     };
+
     return {
-      accessToken: this.jwtService.sign(payload),
+      accessToken: await this.jwtService.sign(payload),
     };
   }
 }
