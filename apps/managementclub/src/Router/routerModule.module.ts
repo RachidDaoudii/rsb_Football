@@ -6,6 +6,9 @@ import { UsersModule } from '../users/users.module';
 import { TeamsModule } from '../teams/teams.module';
 import { Users } from '../entities';
 import { Teams } from '../entities/team.entity';
+import { CategoriesModule } from '../categories/categories.module';
+import { PlayersModule } from '../players/players.module';
+import { StaffsModule } from '../staffs/staffs.module';
 
 @Module({
   imports: [
@@ -19,6 +22,9 @@ import { Teams } from '../entities/team.entity';
     DatabaseModule.forFeature([Users, Teams]),
     UsersModule,
     TeamsModule,
+    CategoriesModule,
+    PlayersModule,
+    StaffsModule
   ],
   controllers: [],
   providers: [],

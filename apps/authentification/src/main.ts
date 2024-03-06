@@ -10,13 +10,13 @@ async function bootstrap() {
   const app = await NestFactory.create(AuthModule);
   const configService = app.get(ConfigService);
 
-  // app.connectMicroservice({
-  //   transport: Transport.RMQ,
-  //   options: {
-  //     urls: [configService.getOrThrow('RaBbitMQ_URL')],
-  //     queue: 'authentification',
-  //   },
-  // });
+  app.connectMicroservice({
+    transport: Transport.RMQ,
+    options: {
+      urls: [configService.getOrThrow('RaBbitMQ_URL')],
+      queue: 'authentification',
+    },
+  });
   app.use(cookieParser());
   app.enableCors({
     origin: 'http://localhost:3000',
@@ -24,7 +24,7 @@ async function bootstrap() {
     credentials: true,
   });
   app.useGlobalPipes(new ValidationPipe());
-  // await app.startAllMicroservices();
+  await app.startAllMicroservices();
   await app.listen(4000);
 }
 bootstrap();
