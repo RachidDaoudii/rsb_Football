@@ -9,10 +9,11 @@ import * as Joi from 'joi';
 import { JwtStrategy, LocalStrategy, RefreshJwtStrategy } from './strategies';
 import { UserService } from '../user/user.service';
 import { UserRepository } from '../user/user.repository';
-import { bcryptService } from '@app/common';
-import { ServiceJwt } from '../helpers/jwt/jwt.service';
+// import { bcryptService } from '@app/common';
+// import { ServiceJwt } from '../helpers/jwt/jwt.service';
 import { EmailService } from '../helpers/mail/mail.service';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { ServiceJwt, bcryptService } from '@app/common';
 
 import {
   ClientProxyFactory,

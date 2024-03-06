@@ -28,9 +28,9 @@ export class UserController {
     log('--------blog--------');
     log('--------------------');
     log('paylod blog createUserDto', createUserDto);
-    const channel = context.getChannelRef();
-    const originalMsg = context.getMessage();
-    channel.ack(originalMsg);
+    // const channel = context.getChannelRef();
+    // const originalMsg = context.getMessage();
+    // channel.ack(originalMsg);
     return this.userService.create(createUserDto);
   }
 

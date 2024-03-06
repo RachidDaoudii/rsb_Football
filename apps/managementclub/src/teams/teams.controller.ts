@@ -10,6 +10,7 @@ import {
 import { TeamsService } from './teams.service';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
+import { log } from 'console';
 
 @Controller('api/v1/teams')
 export class TeamsController {
@@ -17,6 +18,7 @@ export class TeamsController {
 
   @Post()
   create(@Body() createTeamDto: CreateTeamDto) {
+    log('team ',createTeamDto)
     return this.teamsService.create(createTeamDto);
   }
 

@@ -5,45 +5,25 @@ import { CommentRepository } from './comment.repository';
 
 @Injectable()
 export class CommentService {
-  constructor(private readonly commentRepository: CommentRepository) {}
 
-  async create(createCommentDto: CreateCommentDto) {
-    try {
-      return await this.commentRepository.create(createCommentDto);
-    } catch (error) {
-      return error;
-    }
+  constructor(private readonly commentRepository: CommentRepository) {}
+  create(createCommentDto: CreateCommentDto) {
+    return this.commentRepository.create(createCommentDto);
   }
 
   findAll() {
-    try {
-      return this.commentRepository.findAll();
-    } catch (error) {
-      return error;
-    }
+    return `This action returns all comment`;
   }
 
-  findOne(id: string) {
-    try {
-      return this.commentRepository.findOne(id);
-    } catch (error) {
-      return error;
-    }
+  findOne(id: number) {
+    return `This action returns a #${id} comment`;
   }
 
-  update(id: string, updateCommentDto: UpdateCommentDto) {
-    try {
-      return this.commentRepository.update(id, updateCommentDto);
-    } catch (error) {
-      return error;
-    }
+  async update(id: number, updateCommentDto: UpdateCommentDto) {
+    return await this.commentRepository.update(id, updateCommentDto);
   }
 
-  remove(id: string) {
-    try {
-      return this.commentRepository.delete(id);
-    } catch (error) {
-      return error;
-    }
+  async remove(id: number) {
+    return await this.commentRepository.remove(id);
   }
 }

@@ -15,6 +15,7 @@
     "club": "nest start --watch club",
     "managementclub": "nest start --watch managementclub",
     "marketplace": "nest start --watch marketplace",
+    "apigateway": "nest start --watch apigateway",
     "reservations": "nest start --watch reservations",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/apps/rsb-football_sass/main",

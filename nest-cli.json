@@ -17,15 +17,6 @@
         "tsConfigPath": "libs/common/tsconfig.lib.json"
       }
     },
-    "club": {
-      "type": "application",
-      "root": "apps/club",
-      "entryFile": "main",
-      "sourceRoot": "apps/club/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/club/tsconfig.app.json"
-      }
-    },
     "authentification": {
       "type": "application",
       "root": "apps/authentification",
@@ -69,6 +60,15 @@
       "sourceRoot": "apps/managementclub/src",
       "compilerOptions": {
         "tsConfigPath": "apps/managementclub/tsconfig.app.json"
+      }
+    },
+    "apigateway": {
+      "type": "application",
+      "root": "apps/apigateway",
+      "entryFile": "main",
+      "sourceRoot": "apps/apigateway/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/apigateway/tsconfig.app.json"
       }
     }
   },

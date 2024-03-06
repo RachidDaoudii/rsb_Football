@@ -1,6 +1,8 @@
 import { AbstractEntity } from '@app/common/config/database/abstract.entity';
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany ,ManyToOne} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany ,ManyToOne,JoinColumn} from 'typeorm';
 import { User } from './user.entity';
+import { Post } from './post.entity';
+
 
 @Entity()
 export class Comment extends AbstractEntity<Comment> {
@@ -8,11 +10,13 @@ export class Comment extends AbstractEntity<Comment> {
   id: number;
   @Column()
   content: string;
-  @Column()
-  userId: number;
   // relashionship
-  @ManyToOne(() => User, (user) => user)
-  users: User[];
+  @ManyToOne(() => User, (user) => user.comments)
+  @JoinColumn({ name: 'userId' })
+  users: number;
+  @ManyToOne(() => Post, (post) => post.comments)
+  @JoinColumn({ name: 'postId' })
+  posts: number;
   // end relashionship
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

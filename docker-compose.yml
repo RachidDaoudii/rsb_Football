@@ -42,6 +42,23 @@ services:
     depends_on:
       - 'rabbitmq'
 
+  # apigateway:
+  #   image: apigateway
+  #   build:
+  #     context: .
+  #     dockerfile: ./apps/apigateway/Dockerfile
+  #     target: development
+  #   restart: always
+  #   command: npm run apigateway
+  #   env_file: .env
+  #   ports:
+  #     - '3030:3030'
+  #   depends_on:
+  #   #   - 'authentification'
+  #   #   - 'blog'
+  #   #   - 'managementclub'
+  #     - 'rabbitmq'
+
   rabbitmq:
     image: rabbitmq
     ports:
