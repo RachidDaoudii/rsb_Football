@@ -4,14 +4,10 @@ import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { UsersModule } from '../users/users.module';
 import { TeamsModule } from '../teams/teams.module';
-import { Users } from '../entities';
-import { Teams } from '../entities/team.entity';
-
+import { Users ,Teams ,Category,Player,Staff} from '../entities';
 import { CategoriesModule } from '../categories/categories.module';
 import { PlayersModule } from '../players/players.module';
 import { StaffsModule } from '../staffs/staffs.module';
-import { Category } from '../entities/category.entity';
-import { Player } from '../entities/player.entity';
 
 @Module({
   imports: [
@@ -22,7 +18,7 @@ import { Player } from '../entities/player.entity';
       }),
     }),
     DatabaseModule,
-    DatabaseModule.forFeature([Users, Teams,Category,Player]),
+    DatabaseModule.forFeature([Users, Teams,Category,Player,Staff]),
     UsersModule,
     TeamsModule,
     CategoriesModule,

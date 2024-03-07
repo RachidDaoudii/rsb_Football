@@ -35,8 +35,8 @@ export class Staff extends AbstractEntity<Staff> {
     weight: number;
     @Column()
     size: number;
-    @OneToMany(() => Category, (category) => category.staff)
-    @JoinColumn({ name: 'staffId' })
+    @ManyToOne(() => Category, (category) => category.staff)
+    @JoinColumn({ name: 'categoryId' })
     category: Category[];
   // end relashionship
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

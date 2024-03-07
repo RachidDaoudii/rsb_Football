@@ -24,23 +24,23 @@ export class Player extends AbstractEntity<Player> {
   image: string;
   @Column()
   experience: string;
-    @Column()
-    nationality: string;
-    @Column()
-    Date_of_birth: string;
-    @Column()
-    position: string;
-    @Column()
-    weight: number;
-    @Column()
-    size: number;
-    @Column()
-    matches_played: number;
-    @Column()
-    goals_scored: number;
+  @Column()
+  nationality: string;
+  @Column()
+  Date_of_birth: string;
+  @Column()
+  position: string;
+  @Column()
+  weight: number;
+  @Column()
+  size: number;
+  @Column()
+  matches_played: number;
+  @Column()
+  goals_scored: number;
   // relashionship
   @ManyToOne(() => Category, (category) => category.player)
-  @JoinColumn({ name: 'playerId' })
+  @JoinColumn({ name: 'categoryId' })
   category: Category[];
   // end relashionship
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

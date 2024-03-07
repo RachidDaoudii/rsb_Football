@@ -25,7 +25,7 @@ export class CategoryRepository {
         try {
         const category =  await this.entityManager.findOne(Category, {
             where: { id: id },
-            relations: ['player'],
+            relations: ['player', 'staff'],
         });
         
 
