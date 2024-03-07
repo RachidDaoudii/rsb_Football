@@ -6,9 +6,12 @@ import { UsersModule } from '../users/users.module';
 import { TeamsModule } from '../teams/teams.module';
 import { Users } from '../entities';
 import { Teams } from '../entities/team.entity';
+
 import { CategoriesModule } from '../categories/categories.module';
 import { PlayersModule } from '../players/players.module';
 import { StaffsModule } from '../staffs/staffs.module';
+import { Category } from '../entities/category.entity';
+import { Player } from '../entities/player.entity';
 
 @Module({
   imports: [
@@ -19,7 +22,7 @@ import { StaffsModule } from '../staffs/staffs.module';
       }),
     }),
     DatabaseModule,
-    DatabaseModule.forFeature([Users, Teams]),
+    DatabaseModule.forFeature([Users, Teams,Category,Player]),
     UsersModule,
     TeamsModule,
     CategoriesModule,
