@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { Player } from './player.entity';
 import { Category } from './category.entity';
+import { RoleStaffEnum } from '@app/common';
 
 
 @Entity()
@@ -29,8 +30,15 @@ export class Staff extends AbstractEntity<Staff> {
     nationality: string;
     @Column()
     Date_of_birth: string;
-    @Column()
-    role: string;
+    @Column(
+      {
+        type: 'enum',
+        enum: RoleStaffEnum,
+        array: true,
+        default: [null]
+      }
+    )
+    role: RoleStaffEnum[];
     @Column()
     weight: number;
     @Column()

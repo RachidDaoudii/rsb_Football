@@ -13,4 +13,5 @@ export class CreateStaffDto {
   readonly role: string;
   readonly weight: number;
   readonly size: number;
+  readonly file: Express.Multer.File;
 }

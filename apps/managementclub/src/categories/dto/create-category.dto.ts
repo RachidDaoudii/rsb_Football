@@ -4,5 +4,6 @@ export class CreateCategoryDto {
     name: string;
     // @IsNotEmpty()
     image: string;
+    file: Express.Multer.File;
     
 }

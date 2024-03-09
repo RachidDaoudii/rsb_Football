@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete ,UseGuards} from '@nestjs/common';
 import { StaffsService } from './staffs.service';
 import { CreateStaffDto } from './dto/create-staff.dto';
 import { UpdateStaffDto } from './dto/update-staff.dto';
-
+import { AuthGuard, RoleGuard } from '@app/common/guards';
+import { RoleEnum, Roles } from '@app/common';
 @Controller('api/v1/staffs')
 export class StaffsController {
   constructor(private readonly staffsService: StaffsService) {}

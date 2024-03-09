@@ -10,6 +10,7 @@ import {
   ManyToOne
 } from 'typeorm';
 import { Category } from './category.entity';
+import { PositionEnum } from '@app/common';
 
 
 @Entity()
@@ -28,8 +29,17 @@ export class Player extends AbstractEntity<Player> {
   nationality: string;
   @Column()
   Date_of_birth: string;
+  @Column(
+    {
+      type: 'enum',
+      enum: PositionEnum,
+      array: true,
+      default: [null]
+    }
+  )
+  position: PositionEnum[];
   @Column()
-  position: string;
+  number: number;
   @Column()
   weight: number;
   @Column()

@@ -15,4 +15,5 @@ export class CreatePlayerDto {
   readonly size: number;
   readonly matches_played: number;
   readonly goals_scored: number;
+  readonly file: Express.Multer.File;
 }
