@@ -20,17 +20,18 @@ export class AuthGuard implements CanActivate {
     const request: Request = context.switchToHttp().getRequest();
     const response: Response = context.switchToHttp().getResponse();
 
-
+    
     try {
-      const accessTokenMatch = request?.headers?.cookie.match(/accessToken=([^;]*)/);
-      if (!accessTokenMatch[1]) {
+      const accessTokenMatch = request?.headers?.cookie?.match(/accessToken=([^;]*)/);
+      
+      if (!request?.headers?.cookie?.match(/accessToken=([^;]*)/)[1] || request?.headers?.cookie?.match(/accessToken=([^;]*)/)[1] === undefined) {
         throw new Error(
           'You are not authentified, please login',
         );
         
       }
 
-      const verify = await this.jwtService.verify(accessTokenMatch[1]);
+      const verify = await this.jwtService.verify(request?.headers?.cookie?.match(/accessToken=([^;]*)/)[1]);
       if (!verify) {
         throw new Error(
           'You access token is not valid',

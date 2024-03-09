@@ -6,12 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards
 } from '@nestjs/common';
 import { TeamsService } from './teams.service';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
 import { log } from 'console';
-
+import { AuthGuard, RoleGuard } from '@app/common/guards';
+import { RoleEnum, Roles } from '@app/common';
 @Controller('api/v1/teams')
 export class TeamsController {
   constructor(private readonly teamsService: TeamsService) {}

@@ -1,26 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePlayerDto } from './dto/create-player.dto';
 import { UpdatePlayerDto } from './dto/update-player.dto';
+import { PlayerRepository } from './players.repository';
 
 @Injectable()
 export class PlayersService {
-  create(createPlayerDto: CreatePlayerDto) {
-    return 'This action adds a new player';
+  constructor(private readonly playerRepository: PlayerRepository) {}
+  async create(createPlayerDto: CreatePlayerDto) {
+    return await this.playerRepository.create(createPlayerDto);
   }
 
-  findAll() {
-    return `This action returns all players`;
+  async findAll() {
+    return await this.playerRepository.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} player`;
+  async findOne(id: number) {
+    return await this.playerRepository.findOne(id);
   }
 
-  update(id: number, updatePlayerDto: UpdatePlayerDto) {
-    return `This action updates a #${id} player`;
+  async update(id: number, updatePlayerDto: UpdatePlayerDto) {
+    return await this.playerRepository.update(id, updatePlayerDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} player`;
+  async remove(id: number) {
+    return await this.playerRepository.remove(id);
   }
 }
