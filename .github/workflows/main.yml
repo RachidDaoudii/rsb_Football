@@ -4,57 +4,53 @@ on:
         - dev
         - main
         - '*service-club*'
-jobs:
+  
+  jobs:
     build-and-push-service-club:
-        runs-on: ubuntu-latest
-        if: github.ref_name == 'main' || contains(github.ref_name, 'service-club')
-        steps:
-            - name: Checkout code
-                uses: actions/checkout@v3
-            - name: Setup Node.js
-                uses: actions/setup-node@v3
-                with:
-                node-version: '20.10.0'
-            - name: Install dependencies
-                run: npm install
-                # test
-                # - name: Run tests
-                #   run: npm test
-            - name: Configure AWS credentials
-                uses: aws-actions/configure-aws-credentials@v1
-                with:
-                aws-access-key-id: AKIA5RGPWXNPTLMQ4HEA
-                aws-secret-access-key: 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
-                aws-region: eu-north-1
-            - name: Login to Amazon ECR
-                id: login-ecr
-                uses: aws-actions/amazon-ecr-login@v1
-                with:
-                mask-password: true
-            - name: Build, tag, and push image to Amazon ECR
-                id: build-image
-                env:
-                ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-                IMAGE_TAG: latest
-                REPOSITORY: service-club
-                working-directory: apps/service-club
-                run: |
-                docker build -t $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG -f Dockerfile ../../
-                docker push $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
-                echo "image=$ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
-
-            - name: Fill in the new image ID in the Amazon ECS task definition
-                id: task-def
-                uses: aws-actions/amazon-ecs-render-task-definition@v1
-                with:
-                task-definition: apps/service-club/task-definition-service-auth-revision1.json
-                container-name: image-service-auth-container
-                image: ${{env.ECR_REGISTRY}}/${{env.REPOSITORY}}:${{env.IMAGE_TAG}}
-
-            - name: Deploy to Amazon ECS
-                uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-                with:
-                task-definition: ${{ steps.task-def.outputs.task-definition }}
-                service: service-auth-3
-                cluster: cluster-service-club
-                wait-for-service-stability: true
+      runs-on: ubuntu-latest
+      if: github.ref_name == 'main' || contains(github.ref_name, 'service-club')
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
+        - name: Setup Node.js
+          uses: actions/setup-node@v3
+          with:
+            node-version: '20.10.0'
+        - name: Install dependencies
+          run: npm install
+        - name: Configure AWS credentials
+          uses: aws-actions/configure-aws-credentials@v1
+          with:
+            aws-access-key-id: AKIA5RGPWXNPTLMQ4HEA
+            aws-secret-access-key: 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
+            aws-region: eu-north-1
+        - name: Login to Amazon ECR
+          id: login-ecr
+          uses: aws-actions/amazon-ecr-login@v1
+          with:
+            mask-password: true
+        - name: Build, tag, and push image to Amazon ECR
+          id: build-image
+          env:
+            ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+            IMAGE_TAG: latest
+            REPOSITORY: service-club
+          working-directory: apps/service-club
+          run: |
+            docker build -t $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG -f Dockerfile ../../
+            docker push $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
+            echo "image=$ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+        - name: Fill in the new image ID in the Amazon ECS task definition
+          id: task-def
+          uses: aws-actions/amazon-ecs-render-task-definition@v1
+          with:
+            task-definition: apps/service-club/task-definition-service-auth-revision1.json
+            container-name: image-service-auth-container
+            image: ${{env.ECR_REGISTRY}}/${{env.REPOSITORY}}:${{env.IMAGE_TAG}}
+        - name: Deploy to Amazon ECS
+          uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+          with:
+            task-definition: ${{ steps.task-def.outputs.task-definition }}
+            service: service-auth-3
+            cluster: cluster-service-club
+            wait-for-service-stability: true
