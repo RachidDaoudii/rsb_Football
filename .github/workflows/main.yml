@@ -6,8 +6,7 @@ on:
         - '*service-authentification*'
         - '*service-blog*'
         - '*service-club*'
-  
-  jobs:
+    jobs:
     build-and-push-service-authentification:
       runs-on: ubuntu-latest
       if: github.ref_name == 'main' || contains(github.ref_name, 'service-authentification')
