@@ -27,8 +27,8 @@ on:
         - name: Configure AWS credentials
           uses: aws-actions/configure-aws-credentials@v1
           with:
-            aws-access-key-id: AKIA5RGPWXNPTLMQ4HEA
-            aws-secret-access-key: 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
+            aws-access-key-id: ${{ env.ACCESSKEY }}
+            aws-secret-access-key: ${{ env.SECRETACCESSKEY }}
             aws-region: eu-north-1
         - name: Login to Amazon ECR
           id: login-ecr
@@ -82,8 +82,8 @@ on:
         - name: Configure AWS credentials
           uses: aws-actions/configure-aws-credentials@v1
           with:
-            aws-access-key-id: AKIA5RGPWXNPTLMQ4HEA
-            aws-secret-access-key: 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
+            aws-access-key-id: ${{ env.ACCESSKEY }}
+            aws-secret-access-key: ${{ env.SECRETACCESSKEY }}
             aws-region: eu-north-1
         - name: Login to Amazon ECR
           id: login-ecr
@@ -132,9 +132,10 @@ on:
   
         - name: Configure AWS credentials
           uses: aws-actions/configure-aws-credentials@v1
+          run: echo ${{ env.ACCESSKEY }}
           with:
-            aws-access-key-id: AKIAVJJFKWM5IMXJRTBG
-            aws-secret-access-key: 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
+            aws-access-key-id: ${{ env.ACCESSKEY }}
+            aws-secret-access-key: ${{ env.SECRETACCESSKEY }}
             aws-region: eu-north-1
   
         - name: Login to Amazon ECR
@@ -187,8 +188,8 @@ on:
         - name: Configure AWS credentials
           uses: aws-actions/configure-aws-credentials@v1
           with:
-            aws-access-key-id: AKIA5RGPWXNPTLMQ4HEA
-            aws-secret-access-key: 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
+            aws-access-key-id: ${{ env.ACCESSKEY }}
+            aws-secret-access-key: ${{ env.SECRETACCESSKEY }}
             aws-region: eu-north-1
         - name: Login to Amazon ECR
           id: login-ecr
