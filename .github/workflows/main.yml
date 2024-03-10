@@ -1,12 +1,12 @@
 on:
     push:
-      branches:
-        - dev
-        - main
-        - '*service-authentification*'
-        - '*service-blog*'
-        - '*service-club*'
-    jobs:
+        branches:
+            - dev
+            - main
+            - '*service-authentification*'
+            - '*service-blog*'
+            - '*service-club*'
+jobs:
     build-and-push-service-authentification:
       runs-on: ubuntu-latest
       if: github.ref_name == 'main' || contains(github.ref_name, 'service-authentification')
@@ -61,7 +61,6 @@ on:
             service: service-auth-3
             cluster: cluster-service-authentification
             wait-for-service-stability: true
-  
     build-and-push-service-blog:
       runs-on: ubuntu-latest
       if: github.ref_name == 'main' || contains(github.ref_name, 'service-blog')
@@ -153,7 +152,6 @@ on:
           run: |
             docker build -t $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG .
             docker push $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
-  
     build-and-push-service-payment:
       runs-on: ubuntu-latest
       if: github.ref_name == 'main' || contains(github.ref_name, 'service-payment')
@@ -221,8 +219,7 @@ on:
             task-definition: ${{ steps.task-def.outputs.task-definition }}
             service: service-product
             cluster: cluster-service-product
-            wait-for-service-stability: true
-  
+            wait-for-service-stability: true  
     build-and-push-frontend:
       runs-on: ubuntu-latest
       if: github.ref_name == 'main' || contains(github.ref_name, 'frontend')
