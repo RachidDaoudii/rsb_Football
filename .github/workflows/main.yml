@@ -4,10 +4,12 @@ on:
         - dev
         - main
         - '*service-club*'
+        - '*service-authetification*'
+        - '*service-blog*'
 jobs:
   build-and-push-service-club:
     runs-on: ubuntu-latest
-    if: github.ref_name == 'main' || contains(github.ref_name, 'service-club')
+    if: github.ref_name == 'dev' || contains(github.ref_name, 'service-club')
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -17,6 +19,8 @@ jobs:
         node-version: '20.10.0'
     - name: Install dependencies
       run: npm install
+    # - name : Run test
+      # run: npm test
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -39,4 +43,76 @@ jobs:
         docker build -t $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG -f Dockerfile ../../
         docker push $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
         echo "image=$ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
-        
+  build-and-push-service-authetification:
+    runs-on: ubuntu-latest
+    if: github.ref_name == 'dev' || contains(github.ref_name, 'service-authetification')
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20.10.0'
+    - name: Install dependencies
+      run: npm install
+      # - name : Run test
+      # run: npm test
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+        aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+        aws-region: ${{secrets.AWS_REGION}}
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+      with:
+        mask-password: true
+    - name: Build, tag, and push image to Amazon ECR
+      id: build-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: latest
+        REPOSITORY: rsb-football-service-authentification
+      working-directory: apps/authentification
+      run: |
+        docker build -t $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG -f Dockerfile ../../
+        docker push $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
+        echo "image=$ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+  build-and-push-service-blog:
+    runs-on: ubuntu-latest
+    if: github.ref_name == 'dev' || contains(github.ref_name, 'service-blog')
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20.10.0'
+    - name: Install dependencies
+      run: npm install
+      # - name : Run test
+      # run: npm test
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+        aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+        aws-region: ${{secrets.AWS_REGION}}
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+      with:
+        mask-password: true
+    - name: Build, tag, and push image to Amazon ECR
+      id: build-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: latest
+        REPOSITORY: rsb-football-service-blog
+      working-directory: apps/blog
+      run: |
+        docker build -t $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG -f Dockerfile ../../
+        docker push $ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG
+        echo "image=$ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+  
