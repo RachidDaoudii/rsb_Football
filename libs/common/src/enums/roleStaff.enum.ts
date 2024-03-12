@@ -6,5 +6,6 @@ export enum RoleStaffEnum {
     Analyst = 'analyst',
     Doctor = 'doctor',
     Scout = 'scout',
+    COACH = 'coach'
   }
   

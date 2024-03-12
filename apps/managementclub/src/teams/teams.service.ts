@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
+import { UploadS3Service } from '@app/common/aws/upload-s3/upload-s3.service';
+
 
 @Injectable()
 export class TeamsService {
+  constructor(private readonly uploadS3Service: UploadS3Service) {}
   create(createTeamDto: CreateTeamDto) {
     return 'This action adds a new team';
   }

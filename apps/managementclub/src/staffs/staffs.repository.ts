@@ -26,6 +26,7 @@ export class StaffRepository {
         try {
         const staff =  await this.entityManager.findOne(Staff, {
             where: { id: id },
+            relations: ['category'],
         });
         
 

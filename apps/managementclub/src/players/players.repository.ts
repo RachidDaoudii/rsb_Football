@@ -26,6 +26,7 @@ export class PlayerRepository {
         try {
         const player =  await this.entityManager.findOne(Player, {
             where: { id: id },
+            relations: ['category'],
         });
         
 
