@@ -9,7 +9,7 @@ on:
 jobs:
   build-and-push-service-club:
     runs-on: ubuntu-latest
-    if: github.ref_name == 'main' || contains(github.ref_name, 'service-club')
+    if: github.ref_name == 'dev' || contains(github.ref_name, 'service-club')
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -21,18 +21,6 @@ jobs:
       run: npm install
     # - name : Run test
       # run: npm test
-    - name: Log in to Docker Hub
-      run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-    - name: Build, tag, and push image to Docker Hub
-      uses: docker/build-push-action@v4
-      with:
-        context: ../../
-        dockerfile: ./apps/managementclub/Dockerfile
-        push: true
-        tags: latest
-    - name: Build, tag, and push image to Docker Hub
-      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/rsb-service-club:$tags
-      
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -57,7 +45,7 @@ jobs:
         echo "image=$ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
   build-and-push-service-authetification:
     runs-on: ubuntu-latest
-    if: github.ref_name == 'main' || contains(github.ref_name, 'service-authetification')
+    if: github.ref_name == 'dev' || contains(github.ref_name, 'service-authetification')
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -67,6 +55,8 @@ jobs:
         node-version: '20.10.0'
     - name: Install dependencies
       run: npm install
+      # - name : Run test
+      # run: npm test
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -91,7 +81,7 @@ jobs:
         echo "image=$ECR_REGISTRY/$REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
   build-and-push-service-blog:
     runs-on: ubuntu-latest
-    if: github.ref_name == 'main' || contains(github.ref_name, 'service-blog')
+    if: github.ref_name == 'dev' || contains(github.ref_name, 'service-blog')
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -101,6 +91,8 @@ jobs:
         node-version: '20.10.0'
     - name: Install dependencies
       run: npm install
+      # - name : Run test
+      # run: npm test
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
