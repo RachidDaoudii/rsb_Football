@@ -34,8 +34,6 @@ export class Staff extends AbstractEntity<Staff> {
       {
         type: 'enum',
         enum: RoleStaffEnum,
-        array: true,
-        default: [null]
       }
     )
     role: RoleStaffEnum[];

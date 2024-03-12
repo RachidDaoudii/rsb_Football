@@ -33,8 +33,6 @@ export class Player extends AbstractEntity<Player> {
     {
       type: 'enum',
       enum: PositionEnum,
-      array: true,
-      default: [null]
     }
   )
   position: PositionEnum[];

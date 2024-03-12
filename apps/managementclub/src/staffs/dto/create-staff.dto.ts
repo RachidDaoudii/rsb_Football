@@ -1,17 +1,26 @@
 import { IsNotEmpty } from 'class-validator';
 
 export class CreateStaffDto {
-    @IsNotEmpty()
-  readonly lastname: string;
   @IsNotEmpty()
-
-  readonly firstname: string;
-  readonly image: string;
-  readonly experience: string;
-  readonly nationality: string;
-  readonly Date_of_birth: string;
-  readonly role: string;
-  readonly weight: number;
-  readonly size: number;
-  readonly file: Express.Multer.File;
+  lastname: string;
+  @IsNotEmpty()
+  firstname: string;
+  @IsNotEmpty()
+  image: string;
+  @IsNotEmpty()
+  experience: string;
+  @IsNotEmpty()
+  nationality: string;
+  @IsNotEmpty()
+  Date_of_birth: string;
+  @IsNotEmpty()
+  position: string;
+  @IsNotEmpty()
+  weight: number;
+  @IsNotEmpty()
+  size: number;
+  @IsNotEmpty()
+  role: string;
+  @IsNotEmpty()
+  file: Express.Multer.File;
 }
