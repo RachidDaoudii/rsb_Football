@@ -31,7 +31,7 @@ jobs:
         push: true
         tags: latest
     - name: Build, tag, and push image to Docker Hub
-      run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/rsb-service-club:$tags -f Dockerfile ../../
+      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/rsb-service-club:$tags
       
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
