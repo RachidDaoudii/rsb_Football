@@ -24,7 +24,7 @@ export class AuthController {
     private userService: UserService,
   ) {}
 
-  @UseGuards(LocalAuthGuard)
+  // @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request() req, @Res() res: Response) {
     try {

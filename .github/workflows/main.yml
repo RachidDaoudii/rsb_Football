@@ -55,8 +55,8 @@ jobs:
         node-version: '20.10.0'
     - name: Install dependencies
       run: npm install
-      # - name : Run test
-      # run: npm test
+    - name : Run test
+      run: npm test_auth
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
