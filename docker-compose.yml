@@ -42,6 +42,20 @@ services:
     depends_on:
       - 'rabbitmq'
 
+  marketplace:
+    image: marketplace
+    build:
+      context: .
+      dockerfile: ./apps/marketplace/Dockerfile
+      target: development
+    restart: always
+    command: npm run marketplace
+    env_file: .env
+    ports:
+      - '4003:4003'
+    depends_on:
+      - 'rabbitmq'
+
   # apigateway:
   #   image: apigateway
   #   build:
