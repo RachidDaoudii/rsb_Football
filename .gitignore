@@ -1,4 +1,13 @@
 # compiled output
+/.env
+/env
+env
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
 /dist
 /node_modules
 
@@ -35,4 +44,3 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-/.env
