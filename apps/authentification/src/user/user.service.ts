@@ -2,14 +2,12 @@ import { Injectable, UnauthorizedException, Inject } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserRepository } from './user.repository';
 import { bcryptService } from '@app/common/helpers/bcrypt';
-import { log } from 'console';
-import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
+import { log } from 'console';;
 import * as bcrypt from 'bcryptjs';
 import {
-  AUTH_SERVICE,
   blogService,
   MANAGEMENTCLUB,
+  MARKETPLACE,
 } from '@app/common/constant';
 import { ClientProxy } from '@nestjs/microservices';
 @Injectable()
@@ -17,6 +15,7 @@ export class UserService {
   constructor(
     @Inject(blogService) private readonly authClient: ClientProxy,
     @Inject(MANAGEMENTCLUB) private readonly managementClient: ClientProxy,
+    @Inject(MARKETPLACE) private readonly marketplaceClient: ClientProxy,
 
     private readonly userRepository: UserRepository,
     private readonly bcryptservice: bcryptService,
@@ -43,6 +42,10 @@ export class UserService {
       );
 
       requests.push(this.authClient.send('create-user-blog', user).toPromise());
+
+      requests.push(
+        this.marketplaceClient.send('create-user-marketplace', user).toPromise(),
+      );
 
       Promise.all(requests);
 

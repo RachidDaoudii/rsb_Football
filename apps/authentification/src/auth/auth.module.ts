@@ -24,6 +24,7 @@ import {
   AUTH_SERVICE,
   blogService,
   MANAGEMENTCLUB,
+  MARKETPLACE,
 } from '@app/common/constant';
 
 @Module({
@@ -77,6 +78,17 @@ import {
           options: {
             urls: [configservice.getOrThrow<string>('RaBbitMQ_URL')],
             queue: 'managementclub',
+          },
+        }),
+        inject: [ConfigService],
+      },
+      {
+        name: MARKETPLACE,
+        useFactory: (configservice: ConfigService) => ({
+          transport: Transport.RMQ,
+          options: {
+            urls: [configservice.getOrThrow<string>('RaBbitMQ_URL')],
+            queue: 'marketplace',
           },
         }),
         inject: [ConfigService],
