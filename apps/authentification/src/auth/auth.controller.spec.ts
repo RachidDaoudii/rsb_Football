@@ -6,8 +6,7 @@ import { UserService } from '../user/user.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { bcryptService } from '@app/common/helpers/bcrypt';
 import { EntityManager } from 'typeorm';
-import { blogService } from '@app/common/constant';
-import { MANAGEMENTCLUB } from '@app/common/constant';
+import { blogService ,MANAGEMENTCLUB , MARKETPLACE} from '@app/common/constant';
 import { UserRepository } from '../user/user.repository';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { ServiceJwt } from '@app/common';
@@ -39,7 +38,15 @@ describe('AuthController', () => {
           useValue: {
             send: jest.fn(),
           },
-        },],
+        },
+        {
+          provide: MARKETPLACE,
+          useValue: {
+            send: jest.fn(),
+          },
+        },
+      
+      ],
     })
     .compile();
 
