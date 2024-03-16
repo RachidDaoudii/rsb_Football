@@ -7,8 +7,7 @@ import { Response } from 'express';
 import { UserRepository } from './user.repository';
 import { bcryptService } from '@app/common/helpers/bcrypt';
 import { EntityManager } from 'typeorm';
-import { blogService } from '@app/common/constant';
-import { MANAGEMENTCLUB } from '@app/common/constant';
+import { blogService,MANAGEMENTCLUB ,MARKETPLACE} from '@app/common/constant';
 import { ServiceJwt } from '@app/common';
 import { JwtModule,JwtService } from '@nestjs/jwt';
 
@@ -31,7 +30,13 @@ describe('UserController', () => {
           useValue: {
             send: jest.fn(),
           },
-        },
+        }
+        ,{
+          provide: MARKETPLACE,
+          useValue: {
+            send: jest.fn(),
+          },
+        }
       ]
     }).compile();
 
