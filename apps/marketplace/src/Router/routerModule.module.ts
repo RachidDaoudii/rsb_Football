@@ -6,6 +6,9 @@ import { Users , CategoryProduct, Product} from '../entities';
 import { CategoryProductModule } from '../category-product/category-product.module';
 import { ProductsModule } from '../products/products.module';
 import { UserModule } from '../user/user.module';
+import { OrdersModule } from '../orders/orders.module';
+import { Orders } from '../entities/orders.entity';
+import { OrderProduct } from '../entities/orderProduct.entity';
 
 @Module({
   imports: [
@@ -16,10 +19,11 @@ import { UserModule } from '../user/user.module';
       }),
     }),
     DatabaseModule,
-    DatabaseModule.forFeature([Users,CategoryProduct,Product]),
+    DatabaseModule.forFeature([Users,CategoryProduct,Product,Orders,OrderProduct]),
     CategoryProductModule,
     ProductsModule,
-    UserModule
+    UserModule,
+    OrdersModule
   ],
   controllers: [],
   providers: [],
