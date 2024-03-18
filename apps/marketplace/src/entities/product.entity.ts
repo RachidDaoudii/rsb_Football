@@ -4,9 +4,12 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   JoinColumn,
-  ManyToOne
+  ManyToOne,
+  ManyToMany,
+  OneToMany
 } from 'typeorm';
 import { CategoryProduct } from './categoryProduct.entity';
+import { OrderProduct } from './orderProduct.entity';
 
 
 @Entity()
@@ -32,6 +35,12 @@ export class Product extends AbstractEntity<Product> {
   @ManyToOne(() => CategoryProduct, (category) => category.product)
   @JoinColumn({ name: 'categoryId' })
   Category: CategoryProduct[];
+
+
+  @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.product)
+  orderProducts: OrderProduct[];
+
+  
   // end relashionship
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
