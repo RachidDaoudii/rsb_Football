@@ -37,11 +37,15 @@ export class StaffsController {
     return this.staffsService.findOne(+id);
   }
 
+  @UseGuards(AuthGuard,RoleGuard)
+  @Roles(RoleEnum.Admin)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateStaffDto: UpdateStaffDto) {
     return this.staffsService.update(+id, updateStaffDto);
   }
 
+  @UseGuards(AuthGuard,RoleGuard)
+  @Roles(RoleEnum.Admin)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.staffsService.remove(+id);
