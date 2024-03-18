@@ -30,12 +30,14 @@ export class PostController {
   }
 
   @UseGuards(AuthGuard,RoleGuard)
+  @Roles(RoleEnum.Admin)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
     return this.postService.update(+id, updatePostDto);
   }
 
-    @Roles(RoleEnum.Admin)
+  @UseGuards(AuthGuard,RoleGuard)
+  @Roles(RoleEnum.Admin)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.postService.remove(+id);
