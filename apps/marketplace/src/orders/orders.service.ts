@@ -14,15 +14,23 @@ export class OrdersService {
     return  await this.ordersRepository.getAllOrders();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  async findOne(id: number) {
+    return await this.ordersRepository.getOrderById(id);
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
+  async update(id: number, updateOrderDto: UpdateOrderDto) {
+    return await this.ordersRepository.updateOrder(id, updateOrderDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} order`;
+  async remove(id: number) {
+    return await this.ordersRepository.removeOrder(id);
+  }
+
+  async delivered(id: number) {
+    return await this.ordersRepository.Delivered(id);
+  }
+
+  async paid(id: number) {
+    return await this.ordersRepository.Paid(id);
   }
 }
