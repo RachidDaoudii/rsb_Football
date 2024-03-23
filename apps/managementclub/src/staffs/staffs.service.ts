@@ -9,9 +9,9 @@ export class StaffsService {
   constructor(private readonly staffRepository: StaffRepository,
     private readonly uploadS3Service: UploadS3Service) {}
   async create(createStaffDto: CreateStaffDto) {
-    const file = createStaffDto.file;
-    const upload = await this.uploadS3Service.uploadFile(file);
-    createStaffDto.image = upload
+    // const file = createStaffDto.file;
+    // const upload = await this.uploadS3Service.uploadFile(file);
+    // createStaffDto.image = upload
     return await this.staffRepository.create(createStaffDto);
   }
 

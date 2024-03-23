@@ -43,7 +43,9 @@ export class StaffRepository {
 
     async findAll(): Promise<Staff[]> {
         try {
-        return await this.entityManager.find(Staff);
+        return await this.entityManager.find(Staff,{
+            relations: ['category'],
+        });
         } catch (error) {
         throw new ConflictException(error.message);
         }

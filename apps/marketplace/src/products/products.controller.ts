@@ -15,39 +15,41 @@ export class ProductsController {
   @UseGuards(AuthGuard,RoleGuard)
   @Roles(RoleEnum.Admin)
   @UseInterceptors(FileInterceptor('image'))
-  create(@Body() createProductDto: CreateProductDto,@UploadedFile(
-    new ParseFilePipe({
-      validators: [
-        // new MaxFileSizeValidator({maxSize:2000}),
-        // new FileTypeValidator({fileType:{}}),
-      ]
-    })
-  ) file:Express.Multer.File) {
-    createProductDto.file=file;
-    return this.productsService.create(createProductDto);
+  async create(@Body() createProductDto: CreateProductDto,
+  // @UploadedFile(
+  //   new ParseFilePipe({
+  //     validators: [
+  //       // new MaxFileSizeValidator({maxSize:2000}),
+  //       // new FileTypeValidator({fileType:{}}),
+  //     ]
+  //   })
+  // ) file:Express.Multer.File
+  ) {
+    // createProductDto.file=file;
+    return await  this.productsService.create(createProductDto);
   }
 
   @Get()
-  findAll() {
-    return this.productsService.findAll();
+  async findAll() {
+    return await this.productsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productsService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    return await this.productsService.findOne(+id);
   }
 
   @Patch(':id')
   @UseGuards(AuthGuard,RoleGuard)
   @Roles(RoleEnum.Admin)
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productsService.update(+id, updateProductDto);
+  async update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
+    return await this.productsService.update(+id, updateProductDto);
   }
 
   @Delete(':id')
   @UseGuards(AuthGuard,RoleGuard)
   @Roles(RoleEnum.Admin)
-  remove(@Param('id') id: string) {
-    return this.productsService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.productsService.remove(+id);
   }
 }

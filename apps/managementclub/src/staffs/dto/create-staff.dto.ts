@@ -13,14 +13,14 @@ export class CreateStaffDto {
   nationality: string;
   @IsNotEmpty()
   Date_of_birth: string;
-  @IsNotEmpty()
-  position: string;
+  // @IsNotEmpty()
+  // position: string;
   @IsNotEmpty()
   weight: number;
   @IsNotEmpty()
   size: number;
   @IsNotEmpty()
   role: string;
-  @IsNotEmpty()
-  file: Express.Multer.File;
+  // @IsNotEmpty()
+  // file: Express.Multer.File;
 }

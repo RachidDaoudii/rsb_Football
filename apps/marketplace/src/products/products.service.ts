@@ -8,9 +8,9 @@ import { UploadS3Service } from '@app/common/aws/upload-s3/upload-s3.service';
 export class ProductsService {
   constructor(private readonly productRepository: ProductRepository,private readonly uploadS3Service: UploadS3Service) {}
   async create(createProductDto: CreateProductDto) {
-    const file = createProductDto.file;
-    const upload = await this.uploadS3Service.uploadFile(file);
-    createProductDto.image = upload
+    // const file = createProductDto.file;
+    // const upload = await this.uploadS3Service.uploadFile(file);
+    // createProductDto.image = upload
     return await this.productRepository.create(createProductDto);
   }
 

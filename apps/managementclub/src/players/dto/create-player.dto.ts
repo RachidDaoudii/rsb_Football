@@ -15,5 +15,5 @@ export class CreatePlayerDto {
   size: number;
   matches_played: number;
   goals_scored: number;
-  file: Express.Multer.File;
+  // file: Express.Multer.File;
 }

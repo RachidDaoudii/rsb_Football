@@ -10,9 +10,9 @@ export class CategoriesService {
     private readonly uploadS3Service: UploadS3Service
     ) {}
   async create(createCategoryDto: CreateCategoryDto) {
-    const file = createCategoryDto.file;
-    const upload = await this.uploadS3Service.uploadFile(file);
-    createCategoryDto.image = upload
+    // const file = createCategoryDto.file;
+    // const upload = await this.uploadS3Service.uploadFile(file);
+    // createCategoryDto.image = upload
     return await this.categoryRepository.create({
       name: createCategoryDto.name,
       image: createCategoryDto.image
