@@ -10,8 +10,6 @@ export class CreateOrderDto {
     @IsNotEmpty()
     customerPhone: string;
     @IsNotEmpty()
-    address: string;
-    @IsNotEmpty()
     customerAddressLin: string;
     @IsNotEmpty()
     city: string;

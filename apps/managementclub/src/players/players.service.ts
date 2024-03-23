@@ -11,9 +11,9 @@ export class PlayersService {
     private readonly uploadS3Service: UploadS3Service
     ) {}
   async create(createPlayerDto: CreatePlayerDto) {
-    const file = createPlayerDto.file;
-    const upload = await this.uploadS3Service.uploadFile(file);
-    createPlayerDto.image = upload
+    // const file = createPlayerDto.file;
+    // const upload = await this.uploadS3Service.uploadFile(file);
+    // createPlayerDto.image = upload
     return await this.playerRepository.create(createPlayerDto);
   }
 

@@ -43,7 +43,9 @@ export class PlayerRepository {
 
     async findAll(): Promise<Player[]> {
         try {
-        return await this.entityManager.find(Player);
+        return await this.entityManager.find(Player,{
+            relations: ['category'],
+        });
         } catch (error) {
         throw new ConflictException(error.message);
         }

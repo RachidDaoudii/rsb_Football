@@ -14,16 +14,18 @@ export class PlayersController {
   @UseGuards(AuthGuard,RoleGuard)
   @Roles(RoleEnum.Admin)
   @UseInterceptors(FileInterceptor('image'))
-  create(@Body() createPlayerDto: CreatePlayerDto,@UploadedFile(
-    new ParseFilePipe({
-      validators: [
-        // new MaxFileSizeValidator({maxSize:2000}),
-        // new FileTypeValidator({fileType:{}}),
-      ]
+  create(@Body() createPlayerDto: CreatePlayerDto
+  // ,@UploadedFile(
+  //   new ParseFilePipe({
+  //     validators: [
+  //       // new MaxFileSizeValidator({maxSize:2000}),
+  //       // new FileTypeValidator({fileType:{}}),
+  //     ]
     
-    })
-  ) file:Express.Multer.File) {
-    createPlayerDto.file = file;
+  //   })
+  // ) file:Express.Multer.File
+  ) {
+    // createPlayerDto.file = file;
     return this.playersService.create(createPlayerDto);
   }
 

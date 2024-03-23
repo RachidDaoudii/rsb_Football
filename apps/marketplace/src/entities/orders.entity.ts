@@ -29,9 +29,6 @@ export class Orders extends AbstractEntity<Orders> {
     @Column({ type: 'varchar', length: 100 })
     customerPhone: string;
 
-    @Column({ type: 'varchar', length: 255 })
-    address: string;
-
     @Column({ type: 'text', nullable: true })
     customerAddressLin: string;
 

@@ -19,6 +19,11 @@ export class OrdersRepository {
 
     async createOrderProduct(orderDto: CreateOrderDto){
         try {
+            log(orderDto.productId.length)
+                    
+            if (orderDto.productId.length < 1) {
+                throw new Error('Order must have at least one product.');
+            }
             const order = new Orders(orderDto);
             const products = await this.entityManager.findByIds(Product, orderDto.productId.map((id: any) => id.id));
 
@@ -44,7 +49,7 @@ export class OrdersRepository {
             
         } catch (error) {
         this.logger.error(error.message);
-        throw new ConflictException('Error creating order product');
+        throw new ConflictException(error.message);
         }
     }
 

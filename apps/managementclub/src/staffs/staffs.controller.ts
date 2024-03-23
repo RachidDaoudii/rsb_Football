@@ -15,15 +15,17 @@ export class StaffsController {
   @UseGuards(AuthGuard,RoleGuard)
   @Roles(RoleEnum.Admin)
   @UseInterceptors(FileInterceptor('image'))
-  create(@Body() createStaffDto: CreateStaffDto,@UploadedFile(
-    new ParseFilePipe({
-      validators: [
-        // new MaxFileSizeValidator({maxSize:2000}),
-        // new FileTypeValidator({fileType:{}}),
-      ]
-    })
-  ) file:Express.Multer.File) {
-    createStaffDto.file = file;
+  create(@Body() createStaffDto: CreateStaffDto
+  // ,@UploadedFile(
+  //   new ParseFilePipe({
+  //     validators: [
+  //       // new MaxFileSizeValidator({maxSize:2000}),
+  //       // new FileTypeValidator({fileType:{}}),
+  //     ]
+  //   })
+  // ) file:Express.Multer.File
+  ) {
+    // createStaffDto.file = file;
     return this.staffsService.create(createStaffDto);
   }
 

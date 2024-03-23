@@ -23,6 +23,9 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test_auth": "jest authentification",
+    "test_blog": "jest blog",
+    "test_club": "jest club",
+    "test_marketplace": "jest marketplace",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./apps/rsb-football_sass/test/jest-e2e.json"
