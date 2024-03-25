@@ -18,7 +18,7 @@ export class Category extends AbstractEntity<Category> {
   @Column()
   name: string;
   // relashionship
-  @OneToMany(() => Post, (post) => post.categories)
+  @OneToMany(() => Post, (post) => post.categories , { cascade: true })
   posts: Post[];
   // end relashionship
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

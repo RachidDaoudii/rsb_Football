@@ -15,6 +15,7 @@ export class PostController {
   @Post()
   create(@Req() req,@Body() createPostDto: CreatePostDto) {
     const userId = req.user.id; 
+    // if(!userId) throw new Error('User not found');
     createPostDto.userId = userId;
     return this.postService.create(createPostDto);
   }

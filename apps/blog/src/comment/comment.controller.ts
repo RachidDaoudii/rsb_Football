@@ -5,6 +5,7 @@ import { UpdateCommentDto } from './dto/update-comment.dto';
 import { Response } from 'express';
 import { AuthGuard, RoleGuard } from '@app/common/guards';
 import { RoleEnum, Roles } from '@app/common';
+import { log } from 'console';
 
 @Controller('api/v1/comment')
 export class CommentController {
@@ -41,13 +42,29 @@ export class CommentController {
 
   @UseGuards(AuthGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCommentDto: UpdateCommentDto) {
-    return this.commentService.update(+id, updateCommentDto);
+  async update(@Req() req,@Param('id') _id: string, @Body() updateCommentDto: UpdateCommentDto) {
+    const userId = req.user.id; 
+    const comment = await this.findOne(_id);
+    const { users } = comment;
+    const { id }:any = users;
+
+    if (id !== userId) {
+      return 'You are not authorized to perform this action';
+    }
+    return this.commentService.update(+_id, updateCommentDto);
   }
 
   @UseGuards(AuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.commentService.remove(+id);
+  async remove(@Req() req,@Param('id') _id: string) {
+    const userId = req.user.id; 
+    const comment = await this.findOne(_id);
+    const { users } = comment;
+    const { id }:any = users;
+
+    if (id !== userId) {
+      return 'You are not authorized to perform this action';
+    }
+    return this.commentService.remove(+_id);
   }
 }
