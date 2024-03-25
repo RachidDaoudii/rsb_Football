@@ -15,8 +15,8 @@ export class CommentService {
     return `This action returns all comment`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} comment`;
+  async findOne(id: number) {
+    return await this.commentRepository.findOne(id);
   }
 
   async update(id: number, updateCommentDto: UpdateCommentDto) {

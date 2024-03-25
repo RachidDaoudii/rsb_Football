@@ -1,6 +1,6 @@
 import { Injectable, Logger, ConflictException } from '@nestjs/common';
 import { log } from 'console';
-import { Category } from '../entities';
+import { Category ,Post } from '../entities';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 
@@ -62,12 +62,28 @@ export class CategoryRepository {
 
     async remove(id: number): Promise<Category> {
         try {
-        const category = await this.findOne(id);
-        if (!category){
+          const category = await this.findOne(id);
+          if (!category){
             return null;
-        }
-        await this.entityManager.delete(Category, id);
-        return category;
+          }
+
+          const post = await this.entityManager.find(Post, {
+            where: {
+              categories : {
+                id : id
+              }
+            }
+          });
+           if(post.length === 0){
+            await this.entityManager.delete(Category, id);
+            return category;
+           }
+          if (post){
+            await this.entityManager.delete(Post, post);
+          }
+          
+          await this.entityManager.delete(Category, id);
+          return category;
         } catch (error) {
         throw new ConflictException(error.message);
         }

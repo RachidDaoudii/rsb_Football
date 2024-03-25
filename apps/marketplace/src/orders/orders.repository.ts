@@ -19,7 +19,6 @@ export class OrdersRepository {
 
     async createOrderProduct(orderDto: CreateOrderDto){
         try {
-            log(orderDto.productId.length)
                     
             if (orderDto.productId.length < 1) {
                 throw new Error('Order must have at least one product.');
@@ -44,6 +43,7 @@ export class OrdersRepository {
             });
             await this.entityManager.save(order);
             await this.entityManager.save(orderProducts);
+
             return order;
     
             
@@ -82,23 +82,6 @@ export class OrdersRepository {
             if (!order) {
                 throw new Error(`Order with ID ${id} not found.`);
             }
-            // const products = await this.entityManager.findByIds(Product, orderDto.productId.map((id: any) => id.id));
-            // const orderProducts = products.map((product) => {
-            //     const productDto: any = orderDto.productId.find((p: any) => p.id === product.id);
-            //     if (!productDto) {
-            //         throw new Error(`Product with ID ${product.id} not found in order DTO.`);
-            //     }
-            //     const orderProduct = new OrderProduct({
-            //         order,
-            //         product,
-            //         quantity: productDto.quantity
-            //     });
-            //     orderProduct.product = product;
-            //     return orderProduct;
-            // });
-            // await this.entityManager.save(order);
-            // await this.entityManager.save(orderProducts);
-            // return order;
         } catch (error) {
             this.logger.error(error.message);
             throw new ConflictException(error.message);
@@ -153,6 +136,58 @@ export class OrdersRepository {
         } catch (error) {
             this.logger.error(error.message);
             throw new ConflictException(error.message);
+        }
+    }
+
+
+    async getProductsById(orderDto: CreateOrderDto){
+        try {
+            const products = await this.entityManager.findByIds(Product, orderDto.productId.map((id: any) => id.id));
+            if (products.length !== orderDto.productId.length) {
+                throw new Error('Product not found');
+            }
+            return products;
+        } catch (error) {
+            this.logger.error(error.message);
+            throw new ConflictException(error.message);
+        }
+    }
+
+
+    async updateProduct(id: number, data: any): Promise<Product> {
+        try {
+        const product = await this.entityManager.update(Product, id, {
+            stock: data.quantity,
+        });
+
+        if (!product){
+            return null;
+        }
+
+        return await this.findOneProduct(id);
+        
+        } catch (error) {
+        throw new ConflictException(error.message);
+        }
+    }
+
+
+    async findOneProduct(id: number): Promise<Product> {
+        try {
+        const product =  await this.entityManager.findOne(Product, {
+            where: { id: id },
+            relations: ['Category'],
+        });
+        
+
+        if (!product){
+            return null;
+        }
+
+        return product;
+
+        } catch (error) {
+        throw new ConflictException(error.message);
         }
     }
 

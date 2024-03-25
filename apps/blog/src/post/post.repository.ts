@@ -1,6 +1,6 @@
 import { Injectable, Logger, ConflictException } from '@nestjs/common';
 import { log } from 'console';
-import { Post ,Category ,User} from '../entities';
+import { Post ,Category ,User ,Comment} from '../entities';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { NotFoundException } from '@nestjs/common';
@@ -31,7 +31,7 @@ export class PostRepository {
         const post =  await this.entityManager.findOne(Post, {
             where: { id: id },
             select: ['id', 'title','image' ,'content', 'createdAt'],
-            relations: ['users', 'categories','comments'],
+            relations: ['users', 'categories','comments' , 'comments.users'],
         });
 
         
@@ -86,6 +86,13 @@ export class PostRepository {
         const post = await this.findOne(id);
         if (!post){
             return null;
+        }
+
+        const comment = await this.entityManager.findOne(Comment, {where:{
+          posts: id 
+        }})
+        if (comment){
+          await this.entityManager.delete(Comment, comment.id);
         }
         await this.entityManager.delete(Post, id);
         return post;

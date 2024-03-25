@@ -20,7 +20,10 @@ export class CreateOrderDto {
     @IsNotEmpty()
     totalAmount: number;
     @IsNotEmpty()
-    productId: [number];
+    productId: [{
+        id: number;
+        quantity: number;
+    }];
     @IsNotEmpty()
     quantity: number;
     // @IsNotEmpty()

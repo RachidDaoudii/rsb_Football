@@ -48,6 +48,7 @@ export class CommentRepository{
     async findOne(id) {
         return await this.entityManager.findOne(Comment,{
             where: { id: id },
+            relations: ['users'],
         });
     }
     

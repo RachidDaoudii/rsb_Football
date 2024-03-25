@@ -1,14 +1,34 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable ,ConflictException } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { OrdersRepository } from './orders.repository';
+import { log } from 'console';
 
 @Injectable()
 export class OrdersService {
   constructor(private readonly ordersRepository: OrdersRepository) {}
   async create(createOrderDto: CreateOrderDto) {
-    return await this.ordersRepository.createOrderProduct(createOrderDto);
-  }
+    const products = await this.ordersRepository.getProductsById(createOrderDto);
+
+    if (products.length === 0) {
+      throw new Error('Order must have at least one product.');
+    }    
+
+      const check = products.map((product) => {
+        createOrderDto.productId.map((order)=>{
+          if(product.stock < order.quantity){
+            throw new ConflictException(`Product ${product.name} is out of stock.`);
+          }
+          this.ordersRepository.updateProduct(product.id, {quantity: product.stock - order.quantity});
+        })
+      }); 
+
+ 
+    const saveOrder =  await this.ordersRepository.createOrderProduct(createOrderDto);
+
+  return saveOrder;
+
+}
 
   async findAll() {
     return  await this.ordersRepository.getAllOrders();
@@ -33,4 +53,6 @@ export class OrdersService {
   async paid(id: number) {
     return await this.ordersRepository.Paid(id);
   }
+
+
 }
